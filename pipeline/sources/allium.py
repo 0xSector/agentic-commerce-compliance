@@ -39,10 +39,18 @@ def _run_sql(sql: str, title: str) -> list[dict]:
         json={"title": title, "config": {"sql": sql, "limit": 10000}},
         timeout=60,
     )
-    create.raise_for_status()
-    qid = create.json()["query_id"]
+    if create.status_code != 200:
+        raise RuntimeError(
+            f"Allium create {create.status_code}: {(create.text or '')[:300]}"
+        )
+    qid = create.json().get("query_id")
+    if not qid:
+        raise RuntimeError(f"Allium create returned no query_id: {create.text[:300]}")
     run = requests.post(f"{ALLIUM_BASE}/{qid}/run", headers=_headers(), json={}, timeout=300)
-    run.raise_for_status()
+    if run.status_code != 200:
+        raise RuntimeError(
+            f"Allium run {run.status_code}: {(run.text or '')[:300]}"
+        )
     return run.json().get("data") or []
 
 

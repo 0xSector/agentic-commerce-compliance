@@ -30,6 +30,11 @@ jobs:
       - name: Install deps
         run: pip install -r requirements.txt
 
+      - name: Bootstrap agentcash wallet
+        env:
+          AGENTCASH_WALLET_PRIVATE_KEY: ${{ secrets.AGENTCASH_WALLET_PRIVATE_KEY }}
+        run: python scripts/setup_agentcash_wallet.py
+
       - name: Warm agentcash CLI (cached by npx)
         run: npx -y agentcash@latest --version
 
