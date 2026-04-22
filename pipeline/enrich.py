@@ -21,7 +21,7 @@ class EnrichedBuyer:
 
 def enrich_all(buyers: list[AggregatedBuyer]) -> list[EnrichedBuyer]:
     out: list[EnrichedBuyer] = []
-    for i, b in enumerate(buyers):
+    for b in buyers:
         chain = "base" if "base" in b.chains else next(iter(b.chains), "base")
         try:
             n = nansen.fetch_profile(b.address, chain=chain)
@@ -30,10 +30,6 @@ def enrich_all(buyers: list[AggregatedBuyer]) -> list[EnrichedBuyer]:
             n = nansen.NansenProfile(address=b.address, chain=chain, notes=[f"error: {ex}"])
         try:
             t = trm.screen(b.address, chain=chain)
-            if i == 0:
-                import json as _j
-                print(f"[trm-debug] first wallet {b.address} raw:", file=sys.stderr)
-                print(_j.dumps(t.raw, indent=2)[:2000], file=sys.stderr)
         except Exception as ex:
             print(f"[enrich] trm failed for {b.address}: {ex}", file=sys.stderr)
             t = trm.TrmScreen(address=b.address, chain=chain, raw={"error": str(ex)})
