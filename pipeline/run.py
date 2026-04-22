@@ -139,10 +139,11 @@ def main() -> int:
     rows: list[RenderRow] = []
     for idx, e in enumerate(enriched, start=1):
         attrs = _attrib_for_buyer(e.buyer, price_lists)
-        narrative = build_narrative(e, rank=idx, attrs_by_origin=attrs)
+        risk = assess(e)
+        narrative = build_narrative(e, rank=idx, attrs_by_origin=attrs, tier=risk.tier)
         rows.append(RenderRow(
             buyer=e.buyer, nansen=e.nansen, trm=e.trm, arkham=e.arkham,
-            risk=assess(e), narrative=narrative, attributions=attrs,
+            risk=risk, narrative=narrative, attributions=attrs,
         ))
 
     render_site(rows, window_start=window_start, window_end=window_end, run_date=run_date)

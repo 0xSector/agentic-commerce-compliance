@@ -34,6 +34,18 @@ p.para { margin: 8px 0; }
 <h2>Summary</h2>
 <p class="para">{{ row.narrative.summary }}</p>
 
+{% if row.narrative.compliance %}
+<h2>Compliance analysis</h2>
+<p class="para"><strong>Overall Risk:</strong> <span class="tier-{{ row.risk.tier }}">{{ row.narrative.compliance.overall }}</span></p>
+{% if row.narrative.compliance.why_not_high %}
+<p class="para"><strong>Why not HIGH:</strong> {{ row.narrative.compliance.why_not_high }}</p>
+{% endif %}
+{% if row.narrative.compliance.why_not_low %}
+<p class="para"><strong>Why not LOW:</strong> {{ row.narrative.compliance.why_not_low }}</p>
+{% endif %}
+<p class="para"><strong>Investigation path:</strong> {{ row.narrative.compliance.investigation_path }}</p>
+{% endif %}
+
 <h2>Funding & behavior</h2>
 <p class="para">{{ row.narrative.funding_and_behavior }}</p>
 
