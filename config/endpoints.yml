@@ -11,8 +11,8 @@ x402:
     all: true
   - origin: stablesocial.dev
     path_keywords: [profile, user, username, account, person, search, lookup, identity]
-  - origin: stableemail.dev
-    path_keywords: [validate, verify, lookup, search, person, identity, email]
+# stableemail.dev intentionally excluded — inspection of endpoints showed it's a
+# send-only email service (/api/send, /api/inbox/buy), not a people-lookup API.
 
 # MPP (Tempo) — disabled for now. Re-enable by adding entries; allium.py is
 # ready to use once the Allium key issue is resolved.
