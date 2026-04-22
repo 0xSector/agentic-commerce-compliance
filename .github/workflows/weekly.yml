@@ -1,0 +1,48 @@
+name: weekly-compliance-snapshot
+
+on:
+  schedule:
+    # Monday 13:00 UTC = 08:00 CT (during DST; 07:00 CT otherwise — GH cron is always UTC)
+    - cron: "0 13 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: weekly-run
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Run pipeline
+        env:
+          TRM_API_KEY: ${{ secrets.TRM_API_KEY }}
+          ARKHAM_API_KEY: ${{ secrets.ARKHAM_API_KEY }}
+          ALLIUM_API_KEY: ${{ secrets.ALLIUM_API_KEY }}
+          AGENTCASH_WALLET_PRIVATE_KEY: ${{ secrets.AGENTCASH_WALLET_PRIVATE_KEY }}
+        run: python -m pipeline.run
+
+      - name: Commit site output
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add site/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          STAMP=$(date -u +"%Y-%m-%d")
+          git commit -m "weekly snapshot: ${STAMP}"
+          git push

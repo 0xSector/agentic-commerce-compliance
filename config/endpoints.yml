@@ -1,0 +1,24 @@
+# @purpose: Merchant + endpoint allowlist for the people/identity compliance scope.
+# Any tx on an origin listed here is counted. Tighter per-endpoint filtering can
+# be layered via `path_keywords` — an endpoint is included only if its path matches
+# at least one keyword (case-insensitive substring match).
+#
+# Set `all: true` to include every endpoint under an origin (used for purebred
+# people-search origins like StableEnrich where every endpoint qualifies).
+
+x402:
+  - origin: stableenrich.dev
+    all: true
+  - origin: stablesocial.dev
+    path_keywords: [profile, user, username, account, person, search, lookup, identity]
+  - origin: stableemail.dev
+    path_keywords: [validate, verify, lookup, search, person, identity, email]
+
+# MPP (Tempo) — merchant hashes pulled weekly from mppscan/Allium. The starter
+# list below is the single server the user flagged; slice 2 adds auto-discovery
+# of people/identity merchants (StableEnrich on MPP, Exa, Firecrawl, Apollo, etc.).
+mpp:
+  - server_hash: d8df7999fd26940235130cf13980ee722ff07e0b95681ab7e1e8516f6d8d6794
+    name: Face Search
+    all: true
+  # slice 2: auto-populate from Allium `tempo.mpp_transactions`

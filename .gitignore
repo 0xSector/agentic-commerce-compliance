@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.local
+.DS_Store
+.pytest_cache/
+.ruff_cache/
+# raw cached data from each run
+data/cache/
+# local debugging outputs
+*.ipynb_checkpoints/

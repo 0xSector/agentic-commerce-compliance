@@ -1,0 +1,27 @@
+# @purpose: Risk rubric — translates enrichment facts into LOW/MEDIUM/HIGH tier.
+# Used by pipeline/rubric.py. Thresholds are conservative; tune with Compliance.
+
+hard_flags:
+  # Any single match here forces HIGH regardless of other signals.
+  - trm_sanctions_match
+  - trm_mixer_direct_exposure
+  - trm_category_high_risk       # e.g. darknet, ransomware, terrorism financing
+  - ofac_listed
+
+medium_flags:
+  # Each match adds a point; >= 2 points → MEDIUM.
+  - trm_mixer_indirect_exposure
+  - funding_source_unknown        # no Nansen label on funder
+  - counterparty_count_under_3
+  - automation_tight_loop         # consistent sub-60s cadence between txs
+  - single_purpose_wallet         # 90%+ of outbound spend to one recipient
+
+low_defaults:
+  - funding_source_kyc_exchange   # Coinbase, Kraken, Binance.US, etc.
+  - no_mixer_exposure
+  - no_sanctions_exposure
+
+narrative:
+  # LLM-generated "what they're buying" / "why they might be doing this".
+  # Slice 2 wires this up. For now, narrative = concatenation of observed facts.
+  enabled: false
