@@ -33,7 +33,14 @@ class NansenProfile:
 
 
 def _agentcash_available() -> bool:
-    return shutil.which("npx") is not None and bool(os.environ.get("AGENTCASH_WALLET_PRIVATE_KEY"))
+    if shutil.which("npx") is None:
+        return False
+    # Either a CI-style env var (workflow writes wallet.json from it) or an
+    # already-configured local wallet file works.
+    if os.environ.get("AGENTCASH_WALLET_PRIVATE_KEY"):
+        return True
+    wallet_path = os.path.expanduser("~/.agentcash/wallet.json")
+    return os.path.exists(wallet_path)
 
 
 def _agentcash_fetch(path: str, body: dict, timeout: int = 90) -> dict | None:
