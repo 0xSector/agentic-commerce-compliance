@@ -19,9 +19,17 @@ th { background: #f7f7f7; font-weight: 600; }
 .addr { font-family: "SF Mono", Menlo, monospace; font-size: 12px; }
 .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #eef; font-size: 11px; margin-right: 4px; }
 footer { margin-top: 48px; color: #888; font-size: 12px; }
+nav { margin-bottom: 20px; font-size: 14px; }
+nav a { margin-right: 12px; text-decoration: none; color: #4a7bd6; }
+nav a.active { color: #111; font-weight: 600; }
 </style>
 </head>
 <body>
+
+<nav>
+  <a href="index.html" class="active">Dashboard</a>
+  <a href="docs.html">Docs</a>
+</nav>
 
 <h1>Agentic Payments Risk Analysis</h1>
 <div class="sub">Weekly snapshot · window {{ window_start }} → {{ window_end }} · generated {{ run_date }}</div>

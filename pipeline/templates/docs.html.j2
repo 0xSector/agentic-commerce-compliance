@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Documentation — Agentic Payments Risk Analysis</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root { color-scheme: light; }
+body { background: #fff; color: #111; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 860px; margin: 40px auto; padding: 0 20px; line-height: 1.6; }
+h1 { margin-bottom: 4px; }
+h2 { margin-top: 40px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+h3 { margin-top: 24px; font-size: 16px; color: #333; }
+.sub { color: #666; margin-bottom: 32px; }
+nav { margin-bottom: 24px; font-size: 14px; }
+nav a { margin-right: 12px; text-decoration: none; color: #4a7bd6; }
+nav a.active { color: #111; font-weight: 600; }
+code { background: #f5f5f5; padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+ul { padding-left: 22px; }
+li { margin: 4px 0; }
+dl { margin: 12px 0; }
+dt { font-weight: 600; margin-top: 10px; }
+dd { margin-left: 0; color: #444; }
+.callout { background: #fff7e0; border-radius: 4px; padding: 12px 16px; margin: 20px 0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">← Back to dashboard</a>
+  <a href="docs.html" class="active">Docs</a>
+</nav>
+
+<h1>Documentation</h1>
+<div class="sub">Methodology, rubric, scope, glossary, and investigation playbook for the Agentic Payments Risk Analysis dashboard.</div>
+
+<h2>Methodology</h2>
+
+<h3>Data collection — x402 on Base</h3>
+<ol>
+  <li>Query <code>x402scan</code>'s <code>public.sellers.bazaar.list</code> tRPC endpoint for a 7-day window. Response includes the recipient wallet(s) for each origin in our allowlist (stableenrich.dev, stablesocial.dev).</li>
+  <li>For each recipient wallet, fetch all USDC Transfer logs on Base (USDC contract <code>0x833589fcd6edb6e08f4c7c32d4f71b54bda02913</code>, topic <code>0xddf252ad…</code>) over the last 7 days via <code>mainnet.base.org</code> <code>eth_getLogs</code>, chunked to stay under the public RPC's 10k-block range limit.</li>
+  <li>Under EIP-3009 (the x402 settlement method), <code>topics[1]</code> of the Transfer log is the authorization signer — the actual buyer — not <code>msg.sender</code> (which is the facilitator relaying the payment). We use <code>topics[1]</code>.</li>
+  <li>For path-filtered origins, the published per-endpoint price list is pulled via <code>agentcash discover</code>. Only transfers whose amount matches the price of a qualifying endpoint are counted.</li>
+  <li>Per-buyer totals are summed across qualifying origins. Top 20 by USD spend are selected for enrichment.</li>
+</ol>
+
+<h3>Data collection — MPP on Tempo</h3>
+<p>Allium-based Tempo MPP buyer ranking is deferred for v1. Pattern ready to deploy: <code>tempo.raw.logs</code> filtered on the MPP event contract + topic, excluding the session-model escrow (<code>0x03acdc…</code>) pending separate handling.</p>
+
+<h3>Enrichment per top-20 wallet</h3>
+<ul>
+  <li><strong>Nansen Profiler</strong> <code>/api/v1/profiler/address/current-balance</code> — balance in USD by chain.</li>
+  <li><strong>Nansen Profiler</strong> <code>/api/v1/profiler/address/counterparties</code> — full historical counterparty list with directional volumes. Top inbound funder becomes the "funding source" hypothesis.</li>
+  <li><strong>TRM Labs</strong> <code>/public/v1/screening/addresses</code> — sanctions check, risk indicators, mixer exposure, behavioral signatures.</li>
+  <li><strong>Arkham Intelligence</strong> — entity label lookup (best-effort).</li>
+</ul>
+
+<h3>Endpoint attribution</h3>
+<p>Each on-chain USDC transfer carries only (from, to, value) — the API endpoint being called is <em>not</em> visible on-chain. Attribution works by matching the transfer amount against the origin's published price list:</p>
+<ul>
+  <li>Exactly one endpoint priced at this amount → attribution is unambiguous.</li>
+  <li>Multiple endpoints share this price → the alphabetically-first match is shown, with the understanding that any of the same-price endpoints could be the true call.</li>
+  <li>No endpoint matches this price → flagged as unmatched.</li>
+</ul>
+
+<h2>Risk rubric</h2>
+
+<p>Each wallet is placed into one tier: <span class="tier-LOW" style="color:#0a7d2b;font-weight:600">LOW</span>, <span class="tier-MEDIUM" style="color:#b06a00;font-weight:600">MEDIUM</span>, or <span class="tier-HIGH" style="color:#b00020;font-weight:600">HIGH</span>.</p>
+
+<h3>Hard-HIGH flags (any single match → HIGH)</h3>
+<ul>
+  <li>TRM sanctions match</li>
+  <li>TRM direct mixer exposure</li>
+  <li>TRM high-risk category (ransomware, darknet markets, terrorism financing, child-exploitation materials)</li>
+</ul>
+
+<h3>Medium flags (2+ matches → MEDIUM)</h3>
+<ul>
+  <li>TRM indirect mixer exposure</li>
+  <li>No labeled funding source (Nansen returned no counterparty label)</li>
+  <li>Fewer than 3 unique counterparties</li>
+  <li>Tight automation loop (uniform transaction amounts + high tx count)</li>
+  <li>Single-purpose wallet (over 90% of outbound spend to one recipient)</li>
+</ul>
+
+<h3>LOW default</h3>
+<p>No hard-HIGH flags and fewer than 2 medium flags.</p>
+
+<h3>Compound labels</h3>
+<p>Per-wallet pages may show a compound label like "LOW–MEDIUM." This is used when a wallet is nominally LOW by the rubric but exhibits one or more behavioral-pattern concerns (high tx volume, single-origin activity, no labeled funding). The "Why not LOW" narrative surfaces these explicitly so they are not dismissed.</p>
+
+<h2>Scope and limits</h2>
+
+<div class="callout">
+<strong>What this tool is <em>not</em>:</strong> a formal compliance screening, a customer-screening replacement, or evidence of intent. It is research and surface-level attribution. Do not use it as the sole basis for blocking, allowing, or reporting a customer or counterparty.
+</div>
+
+<ul>
+  <li><strong>Cannot attribute intent.</strong> The on-chain footprint of a legitimate automated sales funnel is indistinguishable from a phishing target-list builder. Intent requires off-chain evidence (KYC trail, customer history, email reputation).</li>
+  <li><strong>Does not see request bodies.</strong> EIP-3009 settlement on Base emits only (from, to, value) on-chain. The actual HTTP request is not visible. Endpoint attribution is by price-matching only.</li>
+  <li><strong>Does not replace customer screening.</strong> TRM and Nansen results here are wallet-level, not customer-level. Formal screening tooling should run independently on any counterparty Visa transacts with.</li>
+  <li><strong>Does not cover all agentic-payment activity.</strong> Only the people-search and identity APIs listed in <code>config/endpoints.yml</code> are in scope. Other x402 / MPP endpoints are not tracked.</li>
+  <li><strong>Does not assess AML patterns outside the 7-day window.</strong> Funding-source trace uses full history; transaction ranking is 7 days only.</li>
+  <li><strong>LOW does not mean certified-clean.</strong> It means no risk indicator fired in our rubric against our data sources this week. TRM's database may not have the wallet indexed; absence of signal is not proof of innocence.</li>
+</ul>
+
+<h2>Glossary</h2>
+
+<dl>
+  <dt>x402</dt>
+  <dd>HTTP response code and protocol extension for agentic micropayments. A server returns HTTP 402 with payment details; the client signs an on-chain stablecoin transfer and retries with a payment header. Primary chain: Base.</dd>
+
+  <dt>MPP (Machine Payments Protocol)</dt>
+  <dd>Tempo-native equivalent of x402. Uses TIP-20 stablecoin transfers on Tempo instead of EIP-3009 on Base. Emerging, lower volume than x402 today.</dd>
+
+  <dt>EIP-3009</dt>
+  <dd>Ethereum standard that lets a wallet authorize a specific USDC transfer via signature ("transferWithAuthorization"). Any relayer can then submit the transaction on-chain, paying gas. Settlement method for x402 on Base. The signer (the buyer) is recoverable from the signature and is what we use for attribution.</dd>
+
+  <dt>x402scan</dt>
+  <dd>Block-explorer-style index of x402 payment activity. Aggregates per-recipient wallet across origins. Primary source for wallet discovery in this tool.</dd>
+
+  <dt>Agentic payment</dt>
+  <dd>An API payment made by an automated agent without human involvement in the individual transaction. Typically $0.001 to $0.50 per call.</dd>
+
+  <dt>Nansen Profiler</dt>
+  <dd>Wallet-analytics API providing counterparty attribution with entity labels, balance history, PnL, and related-wallet inference. Accessed here via agentcash x402 micropayments.</dd>
+
+  <dt>TRM Labs</dt>
+  <dd>On-chain compliance provider. Screens addresses against OFAC and other sanctions lists, known mixers, and risk categories like ransomware and darknet markets.</dd>
+
+  <dt>Arkham Intelligence</dt>
+  <dd>Entity-attribution platform. Labels addresses to known organizations (exchanges, funds, individuals, protocols). Complements Nansen.</dd>
+
+  <dt>KYC'd exchange</dt>
+  <dd>A centralized venue (Coinbase, Kraken, Binance.US, Gemini, etc.) that collects government-ID verification on account holders. Funds originating from a KYC'd exchange have a real identity behind them, reachable via subpoena or law-enforcement request to the exchange.</dd>
+
+  <dt>Session-model escrow (MPP)</dt>
+  <dd>A specific MPP contract (<code>0x03acdc…</code>) that dominates raw on-chain MPP volume but represents escrow holding, not direct API payment. Excluded from our MPP scope pending proper handling.</dd>
+</dl>
+
+<h2>Investigation playbook</h2>
+
+<p>A wallet shows up on the dashboard. What to do next.</p>
+
+<h3>Step 1 — read the per-wallet page</h3>
+<p>The "Compliance analysis" section at the top of each wallet page states the tier, surfaces the flags that fired, and gives a suggested investigation path. Start there.</p>
+
+<h3>Step 2 — KYC-backed wallets (most common)</h3>
+<p>If the "Funding & behavior" section identifies a KYC'd exchange (Coinbase, Kraken, Binance.US, etc.) as the inbound funder:</p>
+<ol>
+  <li>Document the deposit address and the inbound amount from the wallet page.</li>
+  <li>Prepare a subpoena or formal law-enforcement request to the named exchange for the account holder behind that specific deposit address.</li>
+  <li>The exchange returns real-world identity (name, KYC documents, account history). Standard compliance procedures apply from that point.</li>
+</ol>
+
+<h3>Step 3 — wallets with no labeled funding source</h3>
+<ol>
+  <li>Pull a deeper Nansen counterparty graph manually — not just direct inbound, but inbound-of-inbound. (Our automated enrichment only goes one hop.)</li>
+  <li>Trace back until reaching a KYC'd exchange or a known labeled entity.</li>
+  <li>If the trace passes through a mixer or only unlabeled wallets, document the gap and escalate to the compliance lead.</li>
+</ol>
+
+<h3>Step 4 — hard-HIGH flagged wallets</h3>
+<ol>
+  <li>Halt any Visa-adjacent interaction with the address immediately.</li>
+  <li>File a Suspicious Activity Report (SAR) per standard Visa procedure.</li>
+  <li>Preserve evidence: every weekly run is versioned in git on the public repo, so the state at time-of-flag is durable and citable.</li>
+</ol>
+
+<h3>Step 5 — who to contact</h3>
+<ul>
+  <li><strong>On-chain / tracing questions:</strong> Tim (Onchain Data Lead, Crypto Labs)</li>
+  <li><strong>Formal customer screening:</strong> existing Visa compliance tooling and team</li>
+  <li><strong>Legal / subpoena process:</strong> Visa legal counsel</li>
+</ul>
+
+<p style="margin-top:48px;color:#888;font-size:12px">
+Dashboard source: <a href="https://github.com/0xSector/agentic-commerce-compliance">github.com/0xSector/agentic-commerce-compliance</a> — all methodology and rubric code is public and reviewable.
+</p>
+
+</body>
+</html>

@@ -45,6 +45,9 @@ def render_site(rows: list[RenderRow], window_start: str, window_end: str, run_d
     )
     (SITE / "index.html").write_text(idx)
 
+    docs = env.get_template("docs.html.j2").render()
+    (SITE / "docs.html").write_text(docs)
+
     rpt_tpl = env.get_template("report.html.j2")
     for row in rows:
         html = rpt_tpl.render(row=row, run_date=run_date)
