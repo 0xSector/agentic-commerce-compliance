@@ -15,7 +15,7 @@ Each week:
 2. Aggregate unique buyer wallets across all qualifying endpoints and rank by total USD spend.
 3. Take the top 20. For each: pull Nansen profile (funding, balance, counterparties), TRM screening (sanctions/mixer exposure), Arkham entity attribution.
 4. Apply the risk rubric → LOW / MEDIUM / HIGH tier with narrative.
-5. Render per-wallet reports + overview index. Commit `site/` so GitHub Pages redeploys.
+5. Render per-wallet reports + overview index. Commit `docs/` so GitHub Pages redeploys.
 
 ## Architecture
 
@@ -32,7 +32,7 @@ pipeline/
   aggregate.py          dedupe + rank top 20 buyers
   enrich.py             fan-out enrichment per top-20 wallet
   rubric.py             risk tier from facts (LOW/MEDIUM/HIGH)
-  render.py             Jinja2 → site/index.html + site/reports/*.html
+  render.py             Jinja2 → docs/index.html + docs/reports/*.html
 config/
   endpoints.yml         merchant allowlist + path keyword filter
   rubric.yml            risk rubric thresholds
@@ -49,17 +49,17 @@ pip install -r requirements.txt
 cp .env.example .env
 # edit .env
 
-# run the pipeline — writes to ./site/
+# run the pipeline — writes to ./docs/
 python -m pipeline.run
 ```
 
 ## Scheduled runs
 
-`.github/workflows/weekly.yml` runs Monday at 13:00 UTC (08:00 CT), executes the pipeline, and commits the `site/` output back to `main`. GitHub Pages serves from `site/` on the `main` branch.
+`.github/workflows/weekly.yml` runs Monday at 13:00 UTC (08:00 CT), executes the pipeline, and commits the `docs/` output back to `main`. GitHub Pages serves from `docs/` on the `main` branch.
 
-## Audience
+## Scope & framing
 
-Internal Visa — Crypto Labs + Compliance. Research/narrative, not formal screening.
+Research/narrative, not a formal compliance screening. On-chain data only. Attribution hypotheses are explicit and always distinguish fact from inference.
 
 ## Status
 

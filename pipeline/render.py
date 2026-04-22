@@ -14,7 +14,7 @@ from pipeline.rubric import RiskAssessment
 
 ROOT = Path(__file__).resolve().parent.parent
 TEMPLATES = Path(__file__).resolve().parent / "templates"
-SITE = ROOT / "site"
+SITE = ROOT / "docs"
 
 
 @dataclass
