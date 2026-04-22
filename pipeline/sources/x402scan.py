@@ -168,18 +168,32 @@ def pull_base_transfers(recipient: str, days: int) -> list[Transfer]:
     return transfers
 
 
-def buyer_spend_for_origin(origin: str, days: int = 7) -> tuple[SellerBundle | None, list[BuyerSpend]]:
-    """High-level: given an origin, return (bundle, per-buyer totals for the last `days`).
+def buyer_spend_for_origin(
+    origin: str,
+    days: int = 7,
+    allowed_prices: set[float] | None = None,
+) -> tuple[SellerBundle | None, list[BuyerSpend]]:
+    """Given an origin, return (bundle, per-buyer totals for the last `days`).
 
-    Solana side is NOT covered here — slice 1 is Base only. Solana comes in slice 2.
+    If `allowed_prices` is provided, only transfers whose amount (rounded to
+    4 decimals) matches one of those prices are counted — used for path-
+    filtered origins where only some endpoints qualify for the scope.
+
+    Solana side is not covered here (Base only for v1).
     """
     bundle = resolve_bundle(origin, timeframe_days=max(days, 7))
     if not bundle or not bundle.recipients:
         return bundle, []
 
+    rounded_allowed: set[float] | None = None
+    if allowed_prices is not None:
+        rounded_allowed = {round(p, 4) for p in allowed_prices}
+
     totals: dict[str, BuyerSpend] = {}
     for recipient in bundle.recipients:
         for t in pull_base_transfers(recipient, days=days):
+            if rounded_allowed is not None and round(t.amount_usd, 4) not in rounded_allowed:
+                continue
             b = totals.setdefault(t.sender, BuyerSpend(address=t.sender, origin=origin))
             b.tx_count += 1
             b.total_usd += t.amount_usd

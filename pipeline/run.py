@@ -31,15 +31,46 @@ def _load_config() -> dict:
     return yaml.safe_load(CONFIG.read_text())
 
 
-def _collect_x402(cfg: dict, days: int) -> list[x402scan.BuyerSpend]:
+def _collect_x402(cfg: dict, days: int, price_lists: dict[str, list]) -> list[x402scan.BuyerSpend]:
+    """Collect buyer spend per x402 origin.
+
+    `all: true` origins pass through unfiltered — every endpoint is in scope.
+
+    Origins with `path_keywords` use real path filtering: discover endpoints +
+    prices via agentcash, pick the endpoints whose path matches any keyword,
+    then only count on-chain transfers whose amount equals a qualifying price.
+    Shared prices between qualifying and non-qualifying endpoints are included
+    (false-positive leaning — compliance prefers over-inclusion).
+    """
     out: list[x402scan.BuyerSpend] = []
     for entry in cfg.get("x402") or []:
         origin = entry["origin"]
-        if not entry.get("all"):
-            print(f"[x402] skipping {origin} — path_keywords filter is slice 2.5", file=sys.stderr)
-            continue
-        print(f"[x402] pulling {origin} …", file=sys.stderr)
-        _, buyers = x402scan.buyer_spend_for_origin(origin, days=days)
+        url = origin if origin.startswith("http") else f"https://{origin}"
+
+        if entry.get("all"):
+            print(f"[x402] pulling {origin} (all endpoints) …", file=sys.stderr)
+            _, buyers = x402scan.buyer_spend_for_origin(origin, days=days)
+        else:
+            keywords = [k.lower() for k in (entry.get("path_keywords") or [])]
+            if not keywords:
+                print(f"[x402] skipping {origin} — no allowlist and no keywords", file=sys.stderr)
+                continue
+            endpoints = price_lists.get(origin)
+            if endpoints is None:
+                endpoints = discover_endpoints(url)
+                price_lists[origin] = endpoints
+            qualifying = [e for e in endpoints if any(k in e.path.lower() for k in keywords)]
+            if not qualifying:
+                print(f"[x402] {origin}: no endpoints matched path_keywords, skipping", file=sys.stderr)
+                continue
+            allowed_prices = {e.price_usd for e in qualifying}
+            print(
+                f"[x402] pulling {origin} (filtered: {len(qualifying)}/{len(endpoints)} endpoints, "
+                f"{len(allowed_prices)} distinct prices) …",
+                file=sys.stderr,
+            )
+            _, buyers = x402scan.buyer_spend_for_origin(origin, days=days, allowed_prices=allowed_prices)
+
         print(f"[x402] {origin}: {len(buyers)} unique buyers", file=sys.stderr)
         out.extend(buyers)
     return out
@@ -94,13 +125,15 @@ def main() -> int:
     window_start = (now - dt.timedelta(days=WINDOW_DAYS)).date().isoformat()
     run_date = now.strftime("%Y-%m-%d %H:%M UTC")
 
-    x402_spend = _collect_x402(cfg, days=WINDOW_DAYS)
+    # Discover price lists up-front — needed for (a) path-keyword filtering in
+    # `_collect_x402` and (b) per-buyer attribution at render time.
+    all_origins = sorted({(e["origin"]) for e in (cfg.get("x402") or [])})
+    price_lists = _discover_price_lists(all_origins)
+
+    x402_spend = _collect_x402(cfg, days=WINDOW_DAYS, price_lists=price_lists)
     mpp_spend = _collect_mpp(cfg, days=WINDOW_DAYS)
     top = aggregate(x402_spend, mpp_spend, top_n=TOP_N)
     print(f"[aggregate] top {len(top)} buyers across {len(x402_spend)} x402 + {len(mpp_spend)} MPP rows", file=sys.stderr)
-
-    origins_in_top = sorted({o for b in top for o in b.origins})
-    price_lists = _discover_price_lists(origins_in_top)
 
     enriched = enrich_all(top)
     rows: list[RenderRow] = []
