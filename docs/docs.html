@@ -36,13 +36,13 @@ dd { margin-left: 0; color: #333; }
 <h2>How we identify the top buyers</h2>
 
 <h3>Step 1. Find each service's payment address</h3>
-<p>We query an agentic-payments directory service called <strong>x402scan</strong>. Its API returns, for each service we're tracking (stableenrich.dev, stablesocial.dev), the on-chain address that receives payments when someone buys an API call. Think of it as looking up the service's "payment inbox."</p>
+<p>We query an agentic-payments directory service called <strong>x402scan</strong>. Its API returns, for each service we're tracking (stableenrich.dev, stablesocial.dev), the onchain address that receives payments when someone buys an API call. Think of it as looking up the service's "payment inbox."</p>
 
 <h3>Step 2. Read all incoming payments from the last 7 days</h3>
 <p>For each of those payment addresses, we read every USDC payment that landed in the last 7 days directly from the Base blockchain. USDC is the US-dollar-pegged stablecoin used to settle these transactions. Every payment is a public record.</p>
 
 <h3>Step 3. Identify the real buyer (not the relayer)</h3>
-<p>Agentic payments on Base use a signing mechanism called EIP-3009. The key point for attribution: the buyer <em>signs</em> the payment authorization, but a separate service (a "relayer" or "facilitator") actually submits the transaction on-chain and pays the gas fee. This means the address that looks like the sender at first glance is not always the real buyer.</p>
+<p>Agentic payments on Base use a signing mechanism called EIP-3009. The key point for attribution: the buyer <em>signs</em> the payment authorization, but a separate service (a "relayer" or "facilitator") actually submits the transaction onchain and pays the gas fee. This means the address that looks like the sender at first glance is not always the real buyer.</p>
 <p>We recover the real signer from the signature, so we always attribute spend to the actual buyer — never to a relayer.</p>
 
 <h3>Step 4. Filter to qualifying endpoints</h3>
@@ -51,23 +51,18 @@ dd { margin-left: 0; color: #333; }
 <h3>Step 5. Rank and pick the top 20</h3>
 <p>We sum each buyer's spend across all qualifying services. The top 20 buyers by total USD spend become the subject of the deeper analysis below.</p>
 
-<h3>Tempo / MPP side</h3>
-<p>Tempo is a second blockchain that hosts its own agentic payments protocol called MPP. We're planning to extend the dashboard to cover Tempo as well, using a data provider called Allium. Not live yet.</p>
-
 <h2>What we check on each top buyer</h2>
 
-<p>For each wallet in the top 20 we pull four enrichments:</p>
-
 <ul>
-  <li><strong>Current balance.</strong> How much USDC the wallet holds today, via Nansen.</li>
-  <li><strong>Funding history.</strong> Every counterparty the wallet has ever sent or received funds to/from. The biggest inbound source becomes our "funding source" hypothesis — this is what tells us a wallet was funded from, say, Coinbase.</li>
-  <li><strong>Sanctions and risk screening.</strong> TRM Labs checks the address against OFAC sanctions lists, known mixer services, ransomware attributions, darknet markets, and other risk categories.</li>
-  <li><strong>Entity labels.</strong> Arkham Intelligence checks if the wallet has ever been attributed to a known entity — an exchange, fund, or public figure.</li>
+  <li>Sanctions and risk screening (TRM Labs)</li>
+  <li>Current balance (Nansen)</li>
+  <li>Funding history (Nansen)</li>
+  <li>Entity labels (Arkham Intelligence)</li>
 </ul>
 
 <h2>What we can figure out the buyer was actually doing</h2>
 
-<p>On-chain, a payment shows only "wallet A paid wallet B this much USDC." The actual API call — what data was being requested — happens over HTTP between the buyer and the server, and is <strong>not</strong> recorded on-chain.</p>
+<p>Onchain, a payment shows only "wallet A paid wallet B this much USDC." The actual API call — what data was being requested — happens over HTTP between the buyer and the server, and is <strong>not</strong> recorded onchain.</p>
 
 <p>To infer what the buyer was doing, we match the payment amount against the service's published per-endpoint price list:</p>
 
@@ -103,21 +98,6 @@ dd { margin-left: 0; color: #333; }
 <h3>Compound labels — "LOW–MEDIUM"</h3>
 <p>Some wallets are formally LOW by the rubric but still exhibit a concerning behavioral pattern (high volume, pure automation, single-origin) that we don't want dismissed. We surface these as "LOW–MEDIUM" on the per-wallet page with an explicit "Why not LOW" narrative so they're not overlooked.</p>
 
-<h2>Scope and limits</h2>
-
-<div class="callout">
-<strong>This is research, not a formal compliance screening.</strong> Do not use this dashboard as the sole basis for blocking, allowing, or reporting a counterparty.
-</div>
-
-<ul>
-  <li><strong>We cannot attribute intent.</strong> A legitimate sales team doing automated prospecting and a phishing operation building target lists look identical on-chain. Intent requires off-chain evidence (KYC identity, customer history, email reputation).</li>
-  <li><strong>We cannot see the actual API request.</strong> On-chain we see "wallet A paid wallet B $0.01." The actual data request stays between the buyer and the service. Endpoint attribution is inferred from price-matching, not observed.</li>
-  <li><strong>This does not replace formal customer screening.</strong> Our TRM and Nansen results are wallet-level, not customer-level. Your existing screening workflow should run independently on any counterparty Visa actually touches.</li>
-  <li><strong>We do not cover all agentic-payments activity.</strong> Only people-search and identity services that we've explicitly configured are tracked. Other services on the same protocols are out of scope.</li>
-  <li><strong>The 7-day window is for ranking only.</strong> Funding-source history uses full lifetime data; the transaction ranking is limited to the last 7 days.</li>
-  <li><strong>LOW does not mean certified-clean.</strong> It means no risk indicator fired in our rubric against our data sources this week. The relevant compliance databases may not have indexed this specific wallet yet; absence of signal is not proof of innocence.</li>
-</ul>
-
 <h2>Glossary</h2>
 
 <dl>
@@ -137,7 +117,7 @@ dd { margin-left: 0; color: #333; }
   <dd>A stablecoin pegged 1:1 to the US dollar. The most commonly used settlement currency in agentic payments.</dd>
 
   <dt>EIP-3009</dt>
-  <dd>The Ethereum standard that makes x402 payments work. Important for attribution: the real buyer signs the payment; any third party can then submit it on-chain. We can always recover the real signer, so relayers are never mistaken for buyers.</dd>
+  <dd>The Ethereum standard that makes x402 payments work. Important for attribution: the real buyer signs the payment; any third party can then submit it onchain. We can always recover the real signer, so relayers are never mistaken for buyers.</dd>
 
   <dt>Agentic payment</dt>
   <dd>An API payment made by an automated agent without human involvement in each individual transaction. Typically $0.001 to $0.50 per call.</dd>
@@ -146,7 +126,7 @@ dd { margin-left: 0; color: #333; }
   <dd>A wallet-analytics platform. Labels addresses as belonging to known entities (exchanges, DeFi protocols, individuals) and traces the flow of funds between them.</dd>
 
   <dt>TRM Labs</dt>
-  <dd>An on-chain compliance provider. Checks addresses against sanctions lists and flags exposure to high-risk sources like mixers, ransomware, darknet markets, and terrorism financing.</dd>
+  <dd>An onchain compliance provider. Checks addresses against sanctions lists and flags exposure to high-risk sources like mixers, ransomware, darknet markets, and terrorism financing.</dd>
 
   <dt>Arkham Intelligence</dt>
   <dd>Another entity-attribution platform. Often labels addresses that Nansen doesn't, and vice-versa.</dd>
@@ -160,42 +140,6 @@ dd { margin-left: 0; color: #333; }
   <dt>SAR (Suspicious Activity Report)</dt>
   <dd>A formal filing financial institutions must submit when they observe activity that may indicate money laundering or other financial crime.</dd>
 </dl>
-
-<h2>Investigation playbook</h2>
-
-<p>A wallet shows up on the dashboard. Here's how to act on it.</p>
-
-<h3>Step 1. Open the wallet's page</h3>
-<p>Each wallet has its own page linked from the main dashboard. The "Compliance analysis" section at the top states the risk tier, lists the flags that fired, and gives a specific suggested investigation path. Start there every time.</p>
-
-<h3>Step 2. KYC-backed wallets — the most common pattern</h3>
-<p>If the "Funding &amp; behavior" section identifies a KYC'd exchange (Coinbase, Kraken, Binance.US, etc.) as the wallet's primary funding source, the path forward is direct:</p>
-<ol>
-  <li>Note the specific deposit address and the dollar amount of the initial deposit, both shown on the wallet page.</li>
-  <li>Prepare a subpoena or formal law-enforcement request to the named exchange, asking for the identity of the account holder behind that specific deposit address.</li>
-  <li>The exchange returns the real identity — name, government ID on file, account history. From there, standard compliance procedures take over.</li>
-</ol>
-
-<h3>Step 3. Wallets with no labeled funding source</h3>
-<ol>
-  <li>Request a deeper counterparty trace. Our automated enrichment only looks one hop back — a manual trace can follow the funds several hops further.</li>
-  <li>Follow the money backward until the trail reaches a KYC'd exchange or a known labeled entity.</li>
-  <li>If the trail passes through a mixer or only unlabeled wallets, document the gap and escalate to the compliance lead.</li>
-</ol>
-
-<h3>Step 4. Hard-HIGH flagged wallets (sanctions, direct mixer, high-risk category)</h3>
-<ol>
-  <li>Halt any Visa-adjacent interaction with the address immediately.</li>
-  <li>File a Suspicious Activity Report per standard Visa procedure.</li>
-  <li>Preserve evidence. Every weekly run is versioned in the repository's git history, so the exact state at the time of the flag is permanent and citable.</li>
-</ol>
-
-<h3>Step 5. Who to contact</h3>
-<ul>
-  <li><strong>On-chain or tracing questions.</strong> Tim (Onchain Data Lead, Crypto Labs).</li>
-  <li><strong>Formal customer screening.</strong> Existing Visa compliance tooling and team.</li>
-  <li><strong>Legal process (subpoenas, preservation).</strong> Visa legal counsel.</li>
-</ul>
 
 <p style="margin-top:48px;color:#888;font-size:12px">
 Dashboard source: <a href="https://github.com/0xSector/agentic-commerce-compliance">github.com/0xSector/agentic-commerce-compliance</a> — all methodology and rubric code is public and reviewable.

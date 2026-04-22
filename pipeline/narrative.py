@@ -149,14 +149,14 @@ def _build_compliance(e: EnrichedBuyer, tier: str, attrs_by_origin: dict[str, li
         if s["high_volume"] and not s["tight_automation"]:
             c_parts.append(f"high transaction volume ({e.buyer.total_tx} txs in 7 days) indicates pipeline-scale usage")
         if s["unknown_funding"]:
-            c_parts.append("no labeled funding source, which limits traceback without additional on-chain work")
+            c_parts.append("no labeled funding source, which limits traceback without additional onchain work")
         if t.mixer_indirect and not t.mixer_direct:
             c_parts.append("indirect mixer exposure per TRM")
         if c_parts:
             why_not_low = (
                 "Behavioral pattern is the concern: " + "; ".join(c_parts) + ". "
                 "This pattern fits both legitimate sales prospecting / lead generation and "
-                "adversarial target-list building — on-chain data alone cannot distinguish intent."
+                "adversarial target-list building — onchain data alone cannot distinguish intent."
             )
 
     # Investigation path.

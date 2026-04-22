@@ -59,7 +59,7 @@ python -m pipeline.run
 
 ## Scope & framing
 
-Research/narrative, not a formal compliance screening. On-chain data only. Attribution hypotheses are explicit and always distinguish fact from inference.
+Research/narrative, not a formal compliance screening. Onchain data only. Attribution hypotheses are explicit and always distinguish fact from inference.
 
 ## Status
 
