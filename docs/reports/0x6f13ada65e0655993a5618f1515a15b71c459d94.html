@@ -19,6 +19,8 @@ th { width: 200px; color: #555; font-weight: 500; }
 .tier-HIGH { color: #b00020; font-weight: 600; }
 .flag { display: inline-block; padding: 2px 8px; border-radius: 4px; background: #fde; font-size: 12px; margin: 2px 4px 2px 0; }
 a.back { font-size: 13px; }
+pre { background: #f6f6f6; padding: 10px 14px; border-radius: 6px; overflow-x: auto; font-size: 13px; line-height: 1.45; white-space: pre-wrap; }
+p.para { margin: 8px 0; }
 </style>
 </head>
 <body>
@@ -28,17 +30,27 @@ a.back { font-size: 13px; }
 <h1>Compliance report</h1>
 <div class="sub addr">0x6f13ada65e0655993a5618f1515a15b71c459d94</div>
 
-<h2>Summary</h2>
-<table>
-  <tr><th>Risk tier</th><td class="tier-LOW">LOW</td></tr>
-  <tr><th>Total spend (USD)</th><td>$10.81</td></tr>
-  <tr><th>Tx count</th><td>125</td></tr>
-  <tr><th>Chains</th><td>base</td></tr>
-  <tr><th>x402 origins</th><td>stableenrich.dev</td></tr>
-  <tr><th>MPP servers</th><td>—</td></tr>
-</table>
 
-<h2>Rubric</h2>
+<h2>Summary</h2>
+<p class="para">Wallet 0x6f13ada65e0655993a5618f1515a15b71c459d94 ranked #14 among top buyers this week, with $10.81 across 125 transactions on stableenrich.dev. Activity spans base.</p>
+
+<h2>Funding & behavior</h2>
+<p class="para">No Nansen counterparty data returned.</p>
+
+<h2>What they're buying</h2>
+<pre>Price-tier attribution:
+- stableenrich.dev: $0.4400 × 21 → `/api/whitepages/person-search` or `/api/whitepages/property-search` (ambiguous — multiple endpoints share this price)
+- stableenrich.dev: $0.0100 × 47 → `/api/exa/search` or `/api/exa/find-similar` or `/api/exa/answer` or `/api/minerva/validate-emails` (ambiguous — multiple endpoints share this price)
+- stableenrich.dev: $0.0126 × 32 → `/api/firecrawl/scrape`
+- stableenrich.dev: $0.0800 × 5 → `/api/google-maps/text-search/full` or `/api/google-maps/nearby-search/full` (ambiguous — multiple endpoints share this price)
+- stableenrich.dev: $0.0200 × 14 → `/api/google-maps/nearby-search/partial` or `/api/apollo/people-search` or `/api/apollo/org-search` or `/api/google-maps/text-search/partial` (ambiguous — multiple endpoints share this price)
+- stableenrich.dev: $0.0020 × 6 → `/api/exa/contents`</pre>
+
+
+<h2>Risk rubric</h2>
+<table>
+  <tr><th>Tier</th><td class="tier-LOW">LOW</td></tr>
+</table>
 <p><strong>Reasons:</strong></p>
 <ul>
 
@@ -49,19 +61,32 @@ a.back { font-size: 13px; }
 </p>
 
 
+<h2>On-chain activity (this week)</h2>
+<table>
+  <tr><th>Total spend (USD)</th><td>$10.81</td></tr>
+  <tr><th>Tx count</th><td>125</td></tr>
+  <tr><th>Chains</th><td>base</td></tr>
+  <tr><th>x402 origins</th><td>stableenrich.dev</td></tr>
+  <tr><th>MPP servers</th><td>—</td></tr>
+</table>
+
 <h2>Nansen profile</h2>
 <table>
   <tr><th>Current balance</th><td>$0.00</td></tr>
-  <tr><th>Funding source</th><td>(not yet pulled — slice 2)</td></tr>
+  <tr><th>Funding source</th><td>—</td></tr>
   <tr><th>Funding address</th><td class="addr">—</td></tr>
   <tr><th>Funding amount</th><td>$0.00</td></tr>
   <tr><th>Counterparty count</th><td>0</td></tr>
-  <tr><th>Chains active</th><td>—</td></tr>
+  <tr><th>Top counterparties</th><td>—</td></tr>
+  <tr><th>Labels</th><td>—</td></tr>
 </table>
+
+<p style="color:#888;font-size:12px">agentcash unavailable — set AGENTCASH_WALLET_PRIVATE_KEY</p>
+
 
 <h2>TRM screen</h2>
 <table>
-  <tr><th>Risk score</th><td>(no key / stub)</td></tr>
+  <tr><th>Risk score</th><td>—</td></tr>
   <tr><th>Sanctions hit</th><td>no</td></tr>
   <tr><th>Mixer direct</th><td>no</td></tr>
   <tr><th>Mixer indirect</th><td>no</td></tr>
@@ -72,11 +97,10 @@ a.back { font-size: 13px; }
 <table>
   <tr><th>Label</th><td>—</td></tr>
   <tr><th>Entity type</th><td>—</td></tr>
-  <tr><th>Confidence</th><td>—</td></tr>
 </table>
 
 <p style="margin-top:40px;color:#888;font-size:12px">
-Research snapshot — not a formal screening. Narrative generation is disabled in slice 1; slice 2 adds the "what they're buying / likely intent" section.
+Research snapshot — not a formal compliance screening. Endpoint attribution is by price-matching on-chain transfer amounts against published x402/MPP prices; on Base, EIP-3009 transfers do not carry the resource URL, so shared-price buckets are reported as ambiguous rather than split.
 </p>
 
 </body>

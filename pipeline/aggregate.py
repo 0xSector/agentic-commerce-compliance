@@ -19,6 +19,8 @@ class AggregatedBuyer:
     origins: list[str] = field(default_factory=list)     # x402 origins
     mpp_servers: list[str] = field(default_factory=list) # mpp server_hashes
     chains: set[str] = field(default_factory=set)
+    # per-origin tx amount list — for endpoint attribution
+    amounts_by_origin: dict[str, list[float]] = field(default_factory=dict)
 
 
 def aggregate(
@@ -34,6 +36,7 @@ def aggregate(
         if b.origin not in a.origins:
             a.origins.append(b.origin)
         a.chains.add("base")
+        a.amounts_by_origin.setdefault(b.origin, []).extend(b.tx_amounts)
 
     for m in mpp_spend:
         a = by_addr.setdefault(m.address.lower(), AggregatedBuyer(address=m.address.lower()))

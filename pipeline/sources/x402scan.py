@@ -47,6 +47,7 @@ class BuyerSpend:
     origin: str
     tx_count: int = 0
     total_usd: float = 0.0
+    tx_amounts: list[float] = field(default_factory=list)  # per-transfer USD (for endpoint attribution)
 
 
 def _trpc_bazaar(timeframe_days: int) -> list[dict]:
@@ -182,6 +183,7 @@ def buyer_spend_for_origin(origin: str, days: int = 7) -> tuple[SellerBundle | N
             b = totals.setdefault(t.sender, BuyerSpend(address=t.sender, origin=origin))
             b.tx_count += 1
             b.total_usd += t.amount_usd
+            b.tx_amounts.append(t.amount_usd)
 
     ranked = sorted(totals.values(), key=lambda b: b.total_usd, reverse=True)
     return bundle, ranked

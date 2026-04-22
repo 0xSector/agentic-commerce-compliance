@@ -19,6 +19,8 @@ th { width: 200px; color: #555; font-weight: 500; }
 .tier-HIGH { color: #b00020; font-weight: 600; }
 .flag { display: inline-block; padding: 2px 8px; border-radius: 4px; background: #fde; font-size: 12px; margin: 2px 4px 2px 0; }
 a.back { font-size: 13px; }
+pre { background: #f6f6f6; padding: 10px 14px; border-radius: 6px; overflow-x: auto; font-size: 13px; line-height: 1.45; white-space: pre-wrap; }
+p.para { margin: 8px 0; }
 </style>
 </head>
 <body>
@@ -28,17 +30,21 @@ a.back { font-size: 13px; }
 <h1>Compliance report</h1>
 <div class="sub addr">{{ row.buyer.address }}</div>
 
+{% if row.narrative %}
 <h2>Summary</h2>
-<table>
-  <tr><th>Risk tier</th><td class="tier-{{ row.risk.tier }}">{{ row.risk.tier }}</td></tr>
-  <tr><th>Total spend (USD)</th><td>${{ "%.2f"|format(row.buyer.total_usd) }}</td></tr>
-  <tr><th>Tx count</th><td>{{ row.buyer.total_tx }}</td></tr>
-  <tr><th>Chains</th><td>{{ row.buyer.chains|join(", ") }}</td></tr>
-  <tr><th>x402 origins</th><td>{{ row.buyer.origins|join(", ") or "—" }}</td></tr>
-  <tr><th>MPP servers</th><td>{{ row.buyer.mpp_servers|join(", ") or "—" }}</td></tr>
-</table>
+<p class="para">{{ row.narrative.summary }}</p>
 
-<h2>Rubric</h2>
+<h2>Funding & behavior</h2>
+<p class="para">{{ row.narrative.funding_and_behavior }}</p>
+
+<h2>What they're buying</h2>
+<pre>{{ row.narrative.what_theyre_buying }}</pre>
+{% endif %}
+
+<h2>Risk rubric</h2>
+<table>
+  <tr><th>Tier</th><td class="tier-{{ row.risk.tier }}">{{ row.risk.tier }}</td></tr>
+</table>
 <p><strong>Reasons:</strong></p>
 <ul>
 {% for r in row.risk.reasons %}<li>{{ r }}</li>{% endfor %}
@@ -49,19 +55,32 @@ a.back { font-size: 13px; }
 </p>
 {% endif %}
 
+<h2>On-chain activity (this week)</h2>
+<table>
+  <tr><th>Total spend (USD)</th><td>${{ "%.2f"|format(row.buyer.total_usd) }}</td></tr>
+  <tr><th>Tx count</th><td>{{ row.buyer.total_tx }}</td></tr>
+  <tr><th>Chains</th><td>{{ row.buyer.chains|join(", ") }}</td></tr>
+  <tr><th>x402 origins</th><td>{{ row.buyer.origins|join(", ") or "—" }}</td></tr>
+  <tr><th>MPP servers</th><td>{{ row.buyer.mpp_servers|join(", ") or "—" }}</td></tr>
+</table>
+
 <h2>Nansen profile</h2>
 <table>
   <tr><th>Current balance</th><td>${{ "%.2f"|format(row.nansen.current_balance_usd) }}</td></tr>
-  <tr><th>Funding source</th><td>{{ row.nansen.funding_source or "(not yet pulled — slice 2)" }}</td></tr>
+  <tr><th>Funding source</th><td>{{ row.nansen.funding_source or "—" }}</td></tr>
   <tr><th>Funding address</th><td class="addr">{{ row.nansen.funding_address or "—" }}</td></tr>
   <tr><th>Funding amount</th><td>${{ "%.2f"|format(row.nansen.funding_amount_usd) }}</td></tr>
   <tr><th>Counterparty count</th><td>{{ row.nansen.counterparty_count }}</td></tr>
-  <tr><th>Chains active</th><td>{{ row.nansen.chains_active|join(", ") or "—" }}</td></tr>
+  <tr><th>Top counterparties</th><td>{{ row.nansen.counterparties|join(" · ") or "—" }}</td></tr>
+  <tr><th>Labels</th><td>{{ row.nansen.labels|join(", ") or "—" }}</td></tr>
 </table>
+{% if row.nansen.notes %}
+<p style="color:#888;font-size:12px">{{ row.nansen.notes|join(" · ") }}</p>
+{% endif %}
 
 <h2>TRM screen</h2>
 <table>
-  <tr><th>Risk score</th><td>{{ row.trm.risk_score if row.trm.risk_score is not none else "(no key / stub)" }}</td></tr>
+  <tr><th>Risk score</th><td>{{ row.trm.risk_score if row.trm.risk_score is not none else "—" }}</td></tr>
   <tr><th>Sanctions hit</th><td>{{ "yes" if row.trm.sanctions_hit else "no" }}</td></tr>
   <tr><th>Mixer direct</th><td>{{ "yes" if row.trm.mixer_direct else "no" }}</td></tr>
   <tr><th>Mixer indirect</th><td>{{ "yes" if row.trm.mixer_indirect else "no" }}</td></tr>
@@ -72,11 +91,10 @@ a.back { font-size: 13px; }
 <table>
   <tr><th>Label</th><td>{{ row.arkham.label or "—" }}</td></tr>
   <tr><th>Entity type</th><td>{{ row.arkham.entity_type or "—" }}</td></tr>
-  <tr><th>Confidence</th><td>{{ row.arkham.confidence or "—" }}</td></tr>
 </table>
 
 <p style="margin-top:40px;color:#888;font-size:12px">
-Research snapshot — not a formal screening. Narrative generation is disabled in slice 1; slice 2 adds the "what they're buying / likely intent" section.
+Research snapshot — not a formal compliance screening. Endpoint attribution is by price-matching on-chain transfer amounts against published x402/MPP prices; on Base, EIP-3009 transfers do not carry the resource URL, so shared-price buckets are reported as ambiguous rather than split.
 </p>
 
 </body>

@@ -1,15 +1,15 @@
 # @purpose: Renders the static site — index page + one report page per
-# enriched buyer. Output goes to ./site/.
+# enriched buyer. Output goes to ./docs/ (served by GitHub Pages).
 
 from __future__ import annotations
 
-import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from pipeline.enrich import EnrichedBuyer
+from pipeline.attribution import Attribution
+from pipeline.narrative import Narrative
 from pipeline.rubric import RiskAssessment
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -24,6 +24,8 @@ class RenderRow:
     trm: object
     arkham: object
     risk: RiskAssessment
+    narrative: Narrative | None = None
+    attributions: dict[str, list[Attribution]] = field(default_factory=dict)
 
 
 def _env() -> Environment:
@@ -48,5 +50,4 @@ def render_site(rows: list[RenderRow], window_start: str, window_end: str, run_d
         html = rpt_tpl.render(row=row, run_date=run_date)
         (SITE / "reports" / f"{row.buyer.address}.html").write_text(html)
 
-    # Ensure GH Pages doesn't try to Jekyll-process this.
     (SITE / ".nojekyll").write_text("")
