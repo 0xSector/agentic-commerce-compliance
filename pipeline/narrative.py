@@ -16,7 +16,6 @@ from pipeline.enrich import EnrichedBuyer
 class Narrative:
     summary: str
     funding_and_behavior: str
-    what_theyre_buying: str
 
 
 KYC_EXCHANGES = {"coinbase", "kraken", "binance", "binance.us", "gemini", "bitstamp", "okx", "robinhood"}
@@ -74,28 +73,8 @@ def _funding_and_behavior(e: EnrichedBuyer) -> str:
     return " ".join(parts) or "No enrichment signal available."
 
 
-def _what_theyre_buying(attrs_by_origin: dict[str, list[Attribution]]) -> str:
-    if not attrs_by_origin:
-        return "No endpoint attribution — pricing metadata unavailable."
-
-    lines: list[str] = []
-    for origin, attrs in attrs_by_origin.items():
-        for a in attrs:
-            if a.confidence == "unmatched":
-                lines.append(f"- {origin}: ${a.amount_usd:.4f} × {a.tx_count} — no published endpoint at this price")
-                continue
-            names = [f"`{e.path}`" for e in a.matched_endpoints[:4]]
-            label = " or ".join(names) if a.confidence == "ambiguous" else names[0]
-            lines.append(
-                f"- {origin}: ${a.amount_usd:.4f} × {a.tx_count} → {label}"
-                + (" (ambiguous — multiple endpoints share this price)" if a.confidence == "ambiguous" else "")
-            )
-    return "Price-tier attribution:\n" + "\n".join(lines)
-
-
 def build(e: EnrichedBuyer, rank: int, attrs_by_origin: dict[str, list[Attribution]]) -> Narrative:
     return Narrative(
         summary=_summary(e, rank),
         funding_and_behavior=_funding_and_behavior(e),
-        what_theyre_buying=_what_theyre_buying(attrs_by_origin),
     )

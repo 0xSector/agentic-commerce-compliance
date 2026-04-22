@@ -38,7 +38,38 @@ p.para { margin: 8px 0; }
 <p class="para">{{ row.narrative.funding_and_behavior }}</p>
 
 <h2>What they're buying</h2>
-<pre>{{ row.narrative.what_theyre_buying }}</pre>
+{% if row.attributions %}
+<table>
+  <thead>
+    <tr>
+      <th style="width:auto">Origin</th>
+      <th>Price</th>
+      <th>Tx</th>
+      <th style="width:auto">Endpoint</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for origin, attrs in row.attributions.items() %}
+    {% for a in attrs %}
+    <tr>
+      <td>{{ origin }}</td>
+      <td>${{ "%.4f"|format(a.amount_usd) }}</td>
+      <td>{{ a.tx_count }}</td>
+      <td>
+        {% if a.confidence == "unmatched" %}
+          <span style="color:#999">(no published endpoint at this price)</span>
+        {% else %}
+          <code>{{ a.matched_endpoints[0].path }}</code>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p style="color:#888">No endpoint attribution — pricing metadata unavailable.</p>
+{% endif %}
 {% endif %}
 
 <h2>Risk rubric</h2>
