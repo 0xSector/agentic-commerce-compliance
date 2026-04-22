@@ -26,7 +26,7 @@ AMOUNT_EXPR = (
 
 
 def _headers() -> dict:
-    key = os.environ.get("ALLIUM_API_KEY")
+    key = (os.environ.get("ALLIUM_API_KEY") or "").strip()
     if not key:
         raise RuntimeError("ALLIUM_API_KEY not set — required for MPP (Tempo) data")
     return {"X-API-KEY": key, "Content-Type": "application/json"}

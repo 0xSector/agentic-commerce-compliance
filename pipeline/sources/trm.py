@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import base64
 import os
 from dataclasses import dataclass, field
 
@@ -28,20 +29,29 @@ def _chain_to_trm(chain: str) -> str:
 
 
 def screen(address: str, chain: str = "base") -> TrmScreen:
-    key = os.environ.get("TRM_API_KEY")
+    key = (os.environ.get("TRM_API_KEY") or "").strip()
     if not key:
-        # stub path — keep slice 1 running without key
         return TrmScreen(address=address, chain=chain, raw={"stub": "TRM_API_KEY not set"})
 
     body = [{"address": address, "chain": _chain_to_trm(chain)}]
+    # TRM public screening endpoint uses Basic auth with the API key as the
+    # username and an empty password.
+    auth_token = base64.b64encode(f"{key}:".encode()).decode()
     r = requests.post(
         TRM_URL,
         json=body,
-        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+        headers={"Authorization": f"Basic {auth_token}", "Content-Type": "application/json"},
         timeout=30,
     )
-    r.raise_for_status()
-    data = r.json()
+    if r.status_code != 200:
+        return TrmScreen(
+            address=address, chain=chain,
+            raw={"http_status": r.status_code, "body": (r.text or "")[:500]},
+        )
+    try:
+        data = r.json()
+    except ValueError:
+        return TrmScreen(address=address, chain=chain, raw={"error": "non-JSON response"})
     item = data[0] if isinstance(data, list) and data else {}
 
     categories = [c.get("category") for c in (item.get("addressRiskIndicators") or []) if c.get("category")]

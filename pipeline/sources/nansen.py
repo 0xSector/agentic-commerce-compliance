@@ -8,6 +8,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 from dataclasses import dataclass, field
 
 NANSEN_ORIGIN = "https://api.nansen.ai"
@@ -45,12 +46,15 @@ def _agentcash_fetch(path: str, body: dict, timeout: int = 90) -> dict | None:
     try:
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, env=env)
     except subprocess.TimeoutExpired:
+        print(f"[nansen] {path} timeout", file=sys.stderr)
         return None
     if r.returncode != 0:
+        print(f"[nansen] {path} rc={r.returncode}: {(r.stderr or '')[:200]}", file=sys.stderr)
         return None
     try:
         parsed = json.loads(r.stdout)
     except json.JSONDecodeError:
+        print(f"[nansen] {path} bad JSON: {(r.stdout or '')[:200]}", file=sys.stderr)
         return None
     # agentcash wraps real response in .data.body (or .data depending on path)
     d = parsed.get("data") if isinstance(parsed, dict) else None
