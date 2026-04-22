@@ -7,7 +7,7 @@ All secrets live in GitHub Actions Secrets (`Settings → Secrets and variables 
 | `TRM_API_KEY` | Address screening via `api.trmlabs.com/public/v1/screening/addresses` | TRM dashboard |
 | `ARKHAM_API_KEY` | Entity attribution | Arkham dashboard |
 | `ALLIUM_API_KEY` | Tempo MPP tx + spender data | Allium dashboard (VCA contract) |
-| `AGENTCASH_WALLET_PRIVATE_KEY` | Paying for Nansen Profiler calls via agentcash | Funded Base wallet with USDC |
+| `AGENTCASH_WALLET_PRIVATE_KEY` | Paying for Nansen Profiler calls via agentcash | Funded Base wallet with USDC — **dedicated CI wallet, not your personal one**. The workflow derives the address automatically and writes `~/.agentcash/wallet.json` at job start. Fund with ~$20 USDC on Base for multi-month buffer (~$0.07/wallet × 20 wallets × 50 weeks ≈ $70). |
 
 ## Set them via CLI
 

@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import datetime as _dt
 import json
 import os
 import shutil
@@ -12,6 +13,8 @@ import sys
 from dataclasses import dataclass, field
 
 NANSEN_ORIGIN = "https://api.nansen.ai"
+# Wide historical window — funding source is usually the first-ever inbound.
+NANSEN_HISTORY_FROM = "2024-01-01"
 
 
 @dataclass
@@ -67,48 +70,60 @@ def _nansen_chain(chain: str) -> str:
     return {"base": "base", "ethereum": "ethereum", "tempo": "tempo", "solana": "solana"}.get(chain, chain)
 
 
+def _first_label(arr) -> str | None:
+    if isinstance(arr, list) and arr:
+        return str(arr[0])
+    if isinstance(arr, str):
+        return arr
+    return None
+
+
 def fetch_profile(address: str, chain: str = "base") -> NansenProfile:
     if not _agentcash_available():
         return NansenProfile(address=address, chain=chain, notes=["agentcash unavailable — set AGENTCASH_WALLET_PRIVATE_KEY"])
 
     nchain = _nansen_chain(chain)
     prof = NansenProfile(address=address, chain=chain)
+    today = _dt.date.today().isoformat()
 
+    # Current balance — simple body.
     bal = _agentcash_fetch("/api/v1/profiler/address/current-balance",
                            {"address": address, "chain": nchain})
     if isinstance(bal, dict):
-        # Nansen response shape: {"data": [...]} or direct; grab total USD across returned rows
         rows = bal.get("data") if isinstance(bal.get("data"), list) else []
-        if not rows and isinstance(bal.get("totalUsd"), (int, float)):
-            prof.current_balance_usd = float(bal["totalUsd"])
-        else:
-            prof.current_balance_usd = sum(float(r.get("usdValue") or r.get("usd_value") or 0) for r in rows)
+        prof.current_balance_usd = sum(float(r.get("value_usd") or r.get("usdValue") or 0) for r in rows)
+        prof.chains_active = sorted({str(r.get("chain") or "") for r in rows if r.get("chain")})
 
-    cps = _agentcash_fetch("/api/v1/profiler/address/counterparties",
-                           {"address": address, "chain": nchain})
+    # Counterparties — requires `date` range. Use wide history to catch funding source.
+    cps = _agentcash_fetch(
+        "/api/v1/profiler/address/counterparties",
+        {
+            "address": address,
+            "chain": nchain,
+            "date": {"from": NANSEN_HISTORY_FROM, "to": today},
+        },
+    )
     if isinstance(cps, dict):
         rows = cps.get("data") if isinstance(cps.get("data"), list) else []
-        # Inbound counterparties sorted by volume — take top as funding source hypothesis
-        inbound = [r for r in rows if (r.get("direction") or "").lower() in ("in", "inbound", "received")]
-        inbound.sort(key=lambda r: float(r.get("usdValue") or r.get("volumeUsd") or 0), reverse=True)
         prof.counterparty_count = len(rows)
+        # Short display list of top-5 counterparties by total volume.
+        rows_sorted = sorted(rows, key=lambda r: float(r.get("total_volume_usd") or 0), reverse=True)
         prof.counterparties = [
-            (r.get("label") or r.get("entity") or r.get("address") or "")[:80]
-            for r in rows[:5]
+            (_first_label(r.get("counterparty_address_label"))
+             or r.get("counterparty_address") or "")[:80]
+            for r in rows_sorted[:5]
         ]
-        if inbound:
-            top = inbound[0]
-            prof.funding_source = top.get("label") or top.get("entity") or None
-            prof.funding_address = top.get("address") or None
-            prof.funding_amount_usd = float(top.get("usdValue") or top.get("volumeUsd") or 0)
-
-    labels = _agentcash_fetch("/api/v1/profiler/address/labels",
-                              {"address": address, "chain": nchain})
-    if isinstance(labels, dict):
-        data = labels.get("data")
-        if isinstance(data, list):
-            prof.labels = [str(x) for x in data[:10]]
-        elif isinstance(data, dict) and data.get("labels"):
-            prof.labels = [str(x) for x in data["labels"][:10]]
+        # Funding-source hypothesis: top counterparty by volume_in_usd (pure inbound).
+        inbound_sorted = sorted(
+            [r for r in rows if float(r.get("volume_in_usd") or 0) > 0],
+            key=lambda r: float(r.get("volume_in_usd") or 0),
+            reverse=True,
+        )
+        if inbound_sorted:
+            top = inbound_sorted[0]
+            label = _first_label(top.get("counterparty_address_label"))
+            prof.funding_source = label
+            prof.funding_address = top.get("counterparty_address")
+            prof.funding_amount_usd = float(top.get("volume_in_usd") or 0)
 
     return prof
