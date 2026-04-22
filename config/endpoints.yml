@@ -14,11 +14,10 @@ x402:
   - origin: stableemail.dev
     path_keywords: [validate, verify, lookup, search, person, identity, email]
 
-# MPP (Tempo) — merchant hashes pulled weekly from mppscan/Allium. The starter
-# list below is the single server the user flagged; slice 2 adds auto-discovery
-# of people/identity merchants (StableEnrich on MPP, Exa, Firecrawl, Apollo, etc.).
-mpp:
-  - server_hash: d8df7999fd26940235130cf13980ee722ff07e0b95681ab7e1e8516f6d8d6794
-    name: Face Search
-    all: true
-  # slice 2: auto-populate from Allium `tempo.mpp_transactions`
+# MPP (Tempo) — disabled for now. Re-enable by adding entries; allium.py is
+# ready to use once the Allium key issue is resolved.
+mpp: []
+# Reference entries (commented out):
+#   - server_hash: d8df7999fd26940235130cf13980ee722ff07e0b95681ab7e1e8516f6d8d6794
+#     name: Face Search
+#     all: true
