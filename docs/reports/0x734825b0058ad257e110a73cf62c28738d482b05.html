@@ -34,6 +34,18 @@ p.para { margin: 8px 0; }
 <h2>Summary</h2>
 <p class="para">Wallet 0x734825b0058ad257e110a73cf62c28738d482b05 ranked #13 among top buyers this week, with $11.77 across 491 transactions on stableenrich.dev. Activity spans base.</p>
 
+
+<h2>Compliance analysis</h2>
+<p class="para"><strong>Overall Risk:</strong> <span class="tier-LOW">LOW–MEDIUM</span></p>
+
+<p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
+
+
+<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; high transaction volume (491 txs in 7 days) indicates pipeline-scale usage. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — on-chain data alone cannot distinguish intent.</p>
+
+<p class="para"><strong>Investigation path:</strong> Primary inbound funder is High Activity (0x275771…e316). Tracing through that counterparty is the next step; no direct KYC handle without a centralized intermediary.</p>
+
+
 <h2>Funding & behavior</h2>
 <p class="para">Primary inbound funding: High Activity [0x275771] via 0x275771a0aeb2b058728dbcd39170cb294e5ce316, $73.99. Current balance: $44.29.</p>
 
