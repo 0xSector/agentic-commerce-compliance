@@ -26,9 +26,7 @@ footer { margin-top: 48px; color: #888; font-size: 12px; }
 <div class="sub">Weekly snapshot · window {{ window_start }} → {{ window_end }} · generated {{ run_date }}</div>
 
 <section style="background:#f7f9fc;border-left:3px solid #4a7bd6;padding:14px 18px;border-radius:4px;margin-bottom:28px">
-  <p style="margin:0 0 8px"><strong>What this is.</strong> Agentic commerce protocols — <em>x402</em> on Base and <em>MPP</em> on Tempo — let AI agents pay per API call in stablecoins, no account or subscription required. This site ranks the top {{ buyers|length }} wallets that purchased <strong>people-search, identity, and contact-enrichment data</strong> through these protocols in the last 7 days.</p>
-  <p style="margin:0 0 8px"><strong>What's in each report.</strong> For every top buyer: total spend and tx count, per-endpoint attribution (what data they were buying), Nansen funding-source trace (the KYC exchange deposit that originated their funds, when available), TRM sanctions/mixer screening, and a compliance risk tier with a plain-English <em>why-not-HIGH / why-not-LOW</em> narrative and suggested investigation path.</p>
-  <p style="margin:0"><strong>How to use it.</strong> Click any wallet in the table for the full per-wallet report. Wallets funded from KYC'd exchanges have a direct attribution path (subpoena the exchange). Wallets with unlabeled funding or automation-pattern concerns are flagged in the narrative. Data refreshes every Monday.</p>
+  <p style="margin:0">This tool analyzes the risk of counterparties interacting with agentic payment protocols (x402 on Base, MPP on Tempo). Top buyers of people-search and identity APIs are ranked weekly and each is enriched with funding-source trace, sanctions screening, and a compliance risk tier. Click any wallet for the full report.</p>
 </section>
 
 <table>
