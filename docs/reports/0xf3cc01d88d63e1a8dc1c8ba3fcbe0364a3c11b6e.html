@@ -35,13 +35,13 @@ p.para { margin: 8px 0; }
 <p class="para">Wallet 0xf3cc01d88d63e1a8dc1c8ba3fcbe0364a3c11b6e ranked #10 among top buyers this week, with $12.55 across 352 transactions on stableenrich.dev. Activity spans base.</p>
 
 <h2>Funding & behavior</h2>
-<p class="para">Primary inbound funding: [0x8f1b0d] via 0x8f1b0d27329072e55fd91293b007654b9d78d911, $10.00. Current balance: $4.56.</p>
+<p class="para">No Nansen counterparty data returned.</p>
 
 <h2>What they're buying</h2>
 <pre>Price-tier attribution:
 - stableenrich.dev: $0.0495 × 219 → `/api/apollo/people-enrich` or `/api/apollo/org-enrich` (ambiguous — multiple endpoints share this price)
 - stableenrich.dev: $0.0100 × 92 → `/api/exa/search` or `/api/exa/find-similar` or `/api/exa/answer` or `/api/minerva/validate-emails` (ambiguous — multiple endpoints share this price)
-- stableenrich.dev: $0.0200 × 37 → `/api/reddit/post-comments` or `/api/apollo/people-search` or `/api/apollo/org-search` or `/api/google-maps/text-search/partial` (ambiguous — multiple endpoints share this price)
+- stableenrich.dev: $0.0200 × 37 → `/api/apollo/people-search` or `/api/apollo/org-search` or `/api/google-maps/text-search/partial` or `/api/google-maps/nearby-search/partial` (ambiguous — multiple endpoints share this price)
 - stableenrich.dev: $0.0126 × 4 → `/api/firecrawl/scrape`</pre>
 
 
@@ -51,8 +51,12 @@ p.para { margin: 8px 0; }
 </table>
 <p><strong>Reasons:</strong></p>
 <ul>
-<li>No risk flags triggered</li>
+
 </ul>
+
+<p><strong>Flags:</strong>
+<span class="flag">funding_source_unknown</span>
+</p>
 
 
 <h2>On-chain activity (this week)</h2>
@@ -66,14 +70,16 @@ p.para { margin: 8px 0; }
 
 <h2>Nansen profile</h2>
 <table>
-  <tr><th>Current balance</th><td>$4.56</td></tr>
-  <tr><th>Funding source</th><td>[0x8f1b0d]</td></tr>
-  <tr><th>Funding address</th><td class="addr">0x8f1b0d27329072e55fd91293b007654b9d78d911</td></tr>
-  <tr><th>Funding amount</th><td>$10.00</td></tr>
-  <tr><th>Counterparty count</th><td>10</td></tr>
-  <tr><th>Top counterparties</th><td>🤖 SmartVault [0x325bdf] · [0x8f1b0d] · [0xd0244a] · High Activity [0x275771] · [0x06dff3]</td></tr>
+  <tr><th>Current balance</th><td>$0.00</td></tr>
+  <tr><th>Funding source</th><td>—</td></tr>
+  <tr><th>Funding address</th><td class="addr">—</td></tr>
+  <tr><th>Funding amount</th><td>$0.00</td></tr>
+  <tr><th>Counterparty count</th><td>0</td></tr>
+  <tr><th>Top counterparties</th><td>—</td></tr>
   <tr><th>Labels</th><td>—</td></tr>
 </table>
+
+<p style="color:#888;font-size:12px">agentcash unavailable — set AGENTCASH_WALLET_PRIVATE_KEY</p>
 
 
 <h2>TRM screen</h2>
@@ -92,7 +98,7 @@ p.para { margin: 8px 0; }
 </table>
 
 <p style="margin-top:40px;color:#888;font-size:12px">
-Research snapshot — not a formal compliance screening. Endpoint attribution is by price-matching on-chain transfer amounts against published x402/MPP prices; on Base, EIP-3009 transfers do not carry the resource URL, so shared-price buckets are reported as ambiguous rather than split.
+Endpoint attribution is by price-matching on-chain transfer amounts against published x402/MPP prices; on Base, EIP-3009 transfers do not carry the resource URL, so shared-price buckets are reported as ambiguous rather than split.
 </p>
 
 </body>

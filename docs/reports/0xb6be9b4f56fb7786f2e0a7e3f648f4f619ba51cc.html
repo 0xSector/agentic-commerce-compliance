@@ -32,16 +32,16 @@ p.para { margin: 8px 0; }
 
 
 <h2>Summary</h2>
-<p class="para">Wallet 0xb6be9b4f56fb7786f2e0a7e3f648f4f619ba51cc ranked #3 among top buyers this week, with $29.32 across 2626 transactions on stableenrich.dev. Activity spans base.</p>
+<p class="para">Wallet 0xb6be9b4f56fb7786f2e0a7e3f648f4f619ba51cc ranked #3 among top buyers this week, with $29.96 across 2681 transactions on stableenrich.dev. Activity spans base.</p>
 
 <h2>Funding & behavior</h2>
-<p class="para">Primary inbound funding: 🏦 Coinbase: Main Wallet [0xd34ea7] (KYC'd exchange) via 0xd34ea7278e6bd48defe656bbe263aef11101469c, $97.55. Current balance: $63.11.</p>
+<p class="para">No Nansen counterparty data returned.</p>
 
 <h2>What they're buying</h2>
 <pre>Price-tier attribution:
-- stableenrich.dev: $0.0126 × 1217 → `/api/firecrawl/scrape`
-- stableenrich.dev: $0.0100 × 1391 → `/api/exa/search` or `/api/exa/find-similar` or `/api/exa/answer` or `/api/minerva/validate-emails` (ambiguous — multiple endpoints share this price)
-- stableenrich.dev: $0.0200 × 2 → `/api/reddit/post-comments` or `/api/apollo/people-search` or `/api/apollo/org-search` or `/api/google-maps/text-search/partial` (ambiguous — multiple endpoints share this price)
+- stableenrich.dev: $0.0126 × 1254 → `/api/firecrawl/scrape`
+- stableenrich.dev: $0.0100 × 1409 → `/api/exa/search` or `/api/exa/find-similar` or `/api/exa/answer` or `/api/minerva/validate-emails` (ambiguous — multiple endpoints share this price)
+- stableenrich.dev: $0.0200 × 2 → `/api/apollo/people-search` or `/api/apollo/org-search` or `/api/google-maps/text-search/partial` or `/api/google-maps/nearby-search/partial` (ambiguous — multiple endpoints share this price)
 - stableenrich.dev: $0.0020 × 16 → `/api/exa/contents`</pre>
 
 
@@ -55,14 +55,14 @@ p.para { margin: 8px 0; }
 </ul>
 
 <p><strong>Flags:</strong>
-<span class="flag">counterparty_count_under_3</span>
+<span class="flag">funding_source_unknown</span>
 </p>
 
 
 <h2>On-chain activity (this week)</h2>
 <table>
-  <tr><th>Total spend (USD)</th><td>$29.32</td></tr>
-  <tr><th>Tx count</th><td>2626</td></tr>
+  <tr><th>Total spend (USD)</th><td>$29.96</td></tr>
+  <tr><th>Tx count</th><td>2681</td></tr>
   <tr><th>Chains</th><td>base</td></tr>
   <tr><th>x402 origins</th><td>stableenrich.dev</td></tr>
   <tr><th>MPP servers</th><td>—</td></tr>
@@ -70,14 +70,16 @@ p.para { margin: 8px 0; }
 
 <h2>Nansen profile</h2>
 <table>
-  <tr><th>Current balance</th><td>$63.11</td></tr>
-  <tr><th>Funding source</th><td>🏦 Coinbase: Main Wallet [0xd34ea7]</td></tr>
-  <tr><th>Funding address</th><td class="addr">0xd34ea7278e6bd48defe656bbe263aef11101469c</td></tr>
-  <tr><th>Funding amount</th><td>$97.55</td></tr>
-  <tr><th>Counterparty count</th><td>2</td></tr>
-  <tr><th>Top counterparties</th><td>🏦 Coinbase: Main Wallet [0xd34ea7] · 🤖 SmartVault [0x325bdf]</td></tr>
+  <tr><th>Current balance</th><td>$0.00</td></tr>
+  <tr><th>Funding source</th><td>—</td></tr>
+  <tr><th>Funding address</th><td class="addr">—</td></tr>
+  <tr><th>Funding amount</th><td>$0.00</td></tr>
+  <tr><th>Counterparty count</th><td>0</td></tr>
+  <tr><th>Top counterparties</th><td>—</td></tr>
   <tr><th>Labels</th><td>—</td></tr>
 </table>
+
+<p style="color:#888;font-size:12px">agentcash unavailable — set AGENTCASH_WALLET_PRIVATE_KEY</p>
 
 
 <h2>TRM screen</h2>
@@ -96,7 +98,7 @@ p.para { margin: 8px 0; }
 </table>
 
 <p style="margin-top:40px;color:#888;font-size:12px">
-Research snapshot — not a formal compliance screening. Endpoint attribution is by price-matching on-chain transfer amounts against published x402/MPP prices; on Base, EIP-3009 transfers do not carry the resource URL, so shared-price buckets are reported as ambiguous rather than split.
+Endpoint attribution is by price-matching on-chain transfer amounts against published x402/MPP prices; on Base, EIP-3009 transfers do not carry the resource URL, so shared-price buckets are reported as ambiguous rather than split.
 </p>
 
 </body>
