@@ -219,6 +219,10 @@ def send(summary: EmailSummary) -> bool:
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
+            "Accept": "application/json",
+            # Default urllib UA ("Python-urllib/3.x") is blocked by Cloudflare
+            # in front of api.resend.com (error 1010). A real UA passes.
+            "User-Agent": "agentic-commerce-compliance/1.0 (+https://github.com/0xSector/agentic-commerce-compliance)",
         },
         method="POST",
     )
