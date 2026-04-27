@@ -4,8 +4,8 @@ Weekly compliance monitoring for the top buyers of people-search / identity APIs
 
 - **Chains**: Base (x402) + Tempo (MPP)
 - **Sources**: x402scan (Base), Allium (Tempo MPP), Nansen (wallet profile, via agentcash), TRM (sanctions/address screening), Arkham (entity attribution)
-- **Cadence**: Weekly, Monday 08:00 CT via GitHub Actions
-- **Output**: Static site served by GitHub Pages
+- **Cadence**: Weekly, Tuesday 08:00 CT via GitHub Actions
+- **Output**: Static site served by GitHub Pages + email summary via Resend
 
 ## What it does
 
@@ -13,7 +13,7 @@ Each week:
 
 1. Collect last week's transactions for people/identity-tagged endpoints on StableEnrich, StableSocial, StableEmail (x402) and equivalent merchants on MPP.
 2. Aggregate unique buyer wallets across all qualifying endpoints and rank by total USD spend.
-3. Take the top 20. For each: pull Nansen profile (funding, balance, counterparties), TRM screening (sanctions/mixer exposure), Arkham entity attribution.
+3. Take the top 10. For each: pull Nansen profile (funding, balance, counterparties), TRM screening (sanctions/mixer exposure), Arkham entity attribution.
 4. Apply the risk rubric → LOW / MEDIUM / HIGH tier with narrative.
 5. Render per-wallet reports + overview index. Commit `docs/` so GitHub Pages redeploys.
 
@@ -29,10 +29,11 @@ pipeline/
     trm.py              Sanctions + address screening
     arkham.py           Entity attribution
   tag.py                people/identity endpoint classifier
-  aggregate.py          dedupe + rank top 20 buyers
-  enrich.py             fan-out enrichment per top-20 wallet
+  aggregate.py          dedupe + rank top 10 buyers
+  enrich.py             fan-out enrichment per top-10 wallet
   rubric.py             risk tier from facts (LOW/MEDIUM/HIGH)
   render.py             Jinja2 → docs/index.html + docs/reports/*.html
+  email_report.py       Weekly email summary (Resend) — flagged wallets first
 config/
   endpoints.yml         merchant allowlist + path keyword filter
   rubric.yml            risk rubric thresholds
@@ -55,7 +56,7 @@ python -m pipeline.run
 
 ## Scheduled runs
 
-`.github/workflows/weekly.yml` runs Monday at 13:00 UTC (08:00 CT), executes the pipeline, and commits the `docs/` output back to `main`. GitHub Pages serves from `docs/` on the `main` branch.
+`.github/workflows/weekly.yml` runs Tuesday at 13:00 UTC (08:00 CT), executes the pipeline, commits the `docs/` output back to `main`, and sends a weekly email summary via Resend. GitHub Pages serves from `docs/` on the `main` branch. See `SECRETS.md` for email-delivery details (Resend sandbox + Gmail forward).
 
 ## Scope & framing
 

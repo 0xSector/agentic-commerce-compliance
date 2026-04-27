@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 
 from pipeline.aggregate import AggregatedBuyer, aggregate
 from pipeline.attribution import Attribution, attribute, discover_endpoints
+from pipeline.email_report import send_weekly
 from pipeline.enrich import enrich_all
 from pipeline.narrative import build as build_narrative
 from pipeline.render import RenderRow, render_site
@@ -24,7 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CONFIG = ROOT / "config" / "endpoints.yml"
 
 WINDOW_DAYS = 7
-TOP_N = 20
+TOP_N = 10
 
 
 def _load_config() -> dict:
@@ -148,6 +149,11 @@ def main() -> int:
 
     render_site(rows, window_start=window_start, window_end=window_end, run_date=run_date)
     print(f"[render] wrote docs/ with {len(rows)} wallet reports", file=sys.stderr)
+
+    if os.environ.get("SKIP_EMAIL") == "1":
+        print("[email] SKIP_EMAIL=1 — not sending", file=sys.stderr)
+    else:
+        send_weekly(rows, window_start=window_start, window_end=window_end, run_date=run_date)
     return 0
 
 

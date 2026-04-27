@@ -2,8 +2,8 @@ name: weekly-compliance-snapshot
 
 on:
   schedule:
-    # Monday 13:00 UTC = 08:00 CT (during DST; 07:00 CT otherwise — GH cron is always UTC)
-    - cron: "0 13 * * 1"
+    # Tuesday 13:00 UTC = 08:00 CT (during DST; 07:00 CT otherwise — GH cron is always UTC)
+    - cron: "0 13 * * 2"
   workflow_dispatch: {}
 
 permissions:
@@ -44,6 +44,7 @@ jobs:
           ARKHAM_API_KEY: ${{ secrets.ARKHAM_API_KEY }}
           ALLIUM_API_KEY: ${{ secrets.ALLIUM_API_KEY }}
           AGENTCASH_WALLET_PRIVATE_KEY: ${{ secrets.AGENTCASH_WALLET_PRIVATE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: python -m pipeline.run
 
       - name: Commit site output
