@@ -48,8 +48,8 @@ dd { margin-left: 0; color: #333; }
 <h3>Step 4. Filter to qualifying endpoints</h3>
 <p>Some services offer a mix of endpoints — some in scope for this analysis (people search, profile lookup, identity verification) and some not. For those services, we fetch the merchant's published price list for each endpoint and only count payments whose amount matches the price of an in-scope endpoint. Stableenrich.dev is entirely in scope (everything they sell is people-search related), so we count all payments there.</p>
 
-<h3>Step 5. Rank and pick the top 20</h3>
-<p>We sum each buyer's spend across all qualifying services. The top 20 buyers by total USD spend become the subject of the deeper analysis below.</p>
+<h3>Step 5. Rank and pick the top 10</h3>
+<p>We sum each buyer's spend across all qualifying services. The top 10 buyers by total USD spend become the subject of the deeper analysis below.</p>
 
 <h2>What we check on each top buyer</h2>
 
