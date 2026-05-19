@@ -38,7 +38,7 @@ p.para { margin: 8px 0; }
 
 
 <h2>Summary</h2>
-<p class="para">Wallet 0x14da4fceb35cae009f1ed5a6e72feca149595dbf ranked #9 among top buyers this week, with $21.18 across 353 transactions on stablesocial.dev. Activity spans base.</p>
+<p class="para">Wallet 0x14da4fceb35cae009f1ed5a6e72feca149595dbf ranked #3 among top buyers this week, with $18.30 across 310 transactions on stableenrich.dev, stablesocial.dev. Activity spans base.</p>
 
 
 <h2>Compliance analysis</h2>
@@ -47,13 +47,13 @@ p.para { margin: 8px 0; }
 <p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
 
 
-<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: tight automated loop — 353 transactions at a narrow set of uniform prices is consistent with scripted bulk data buying; single-origin activity — the wallet does effectively nothing except buy from this API. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
+<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: high transaction volume (310 txs in 7 days) indicates pipeline-scale usage; no labeled funding source, which limits traceback without additional onchain work. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
 
-<p class="para"><strong>Investigation path:</strong> Primary inbound funder is  (0xd0244a…a1b7). Tracing through that counterparty is the next step; no direct KYC handle without a centralized intermediary.</p>
+<p class="para"><strong>Investigation path:</strong> No labeled funding source identified in Nansen. Next step is deeper tx-graph analysis to reach a KYC'd counterparty before attribution is possible.</p>
 
 
 <h2>Funding & behavior</h2>
-<p class="para">Primary inbound funding: [0xd0244a] via 0xd0244aaaaaf751cd19b05f413d1021c9b105a1b7, $356.93. Current balance: $72.75.</p>
+<p class="para">No Nansen counterparty data returned. Current balance: $45.34.</p>
 
 <h2>What they're buying</h2>
 
@@ -70,12 +70,47 @@ p.para { margin: 8px 0; }
   
     
     <tr>
-      <td>stablesocial.dev</td>
-      <td>$0.0600</td>
-      <td>353</td>
+      <td>stableenrich.dev</td>
+      <td>$0.0100</td>
+      <td>3</td>
       <td>
         
-          <code>/api/facebook/followers</code>
+          <code>/api/exa/search</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.0126</td>
+      <td>2</td>
+      <td>
+        
+          <code>/api/firecrawl/scrape</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.0020</td>
+      <td>1</td>
+      <td>
+        
+          <code>/api/exa/contents</code>
+        
+      </td>
+    </tr>
+    
+  
+    
+    <tr>
+      <td>stablesocial.dev</td>
+      <td>$0.0600</td>
+      <td>304</td>
+      <td>
+        
+          <code>/api/reddit/search</code>
         
       </td>
     </tr>
@@ -92,27 +127,31 @@ p.para { margin: 8px 0; }
 </table>
 <p><strong>Reasons:</strong></p>
 <ul>
-<li>No risk flags triggered</li>
+
 </ul>
+
+<p><strong>Flags:</strong>
+<span class="flag">funding_source_unknown</span>
+</p>
 
 
 <h2>Onchain activity (this week)</h2>
 <table>
-  <tr><th>Total spend (USD)</th><td>$21.18</td></tr>
-  <tr><th>Tx count</th><td>353</td></tr>
+  <tr><th>Total spend (USD)</th><td>$18.30</td></tr>
+  <tr><th>Tx count</th><td>310</td></tr>
   <tr><th>Chains</th><td>base</td></tr>
-  <tr><th>x402 origins</th><td>stablesocial.dev</td></tr>
+  <tr><th>x402 origins</th><td>stableenrich.dev, stablesocial.dev</td></tr>
   <tr><th>MPP servers</th><td>—</td></tr>
 </table>
 
 <h2>Nansen profile</h2>
 <table>
-  <tr><th>Current balance</th><td>$72.75</td></tr>
-  <tr><th>Funding source</th><td>[0xd0244a]</td></tr>
-  <tr><th>Funding address</th><td class="addr">0xd0244aaaaaf751cd19b05f413d1021c9b105a1b7</td></tr>
-  <tr><th>Funding amount</th><td>$356.93</td></tr>
-  <tr><th>Counterparty count</th><td>10</td></tr>
-  <tr><th>Top counterparties</th><td>[0xd0244a] · [0xcfa26f] · Relay Protocol: EOA Bridge [0xf70da9] · [0x91f0be] · [0xca3cff]</td></tr>
+  <tr><th>Current balance</th><td>$45.34</td></tr>
+  <tr><th>Funding source</th><td>—</td></tr>
+  <tr><th>Funding address</th><td class="addr">—</td></tr>
+  <tr><th>Funding amount</th><td>$0.00</td></tr>
+  <tr><th>Counterparty count</th><td>0</td></tr>
+  <tr><th>Top counterparties</th><td>—</td></tr>
   <tr><th>Labels</th><td>—</td></tr>
 </table>
 

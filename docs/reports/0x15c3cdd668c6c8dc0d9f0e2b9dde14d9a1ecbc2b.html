@@ -38,22 +38,22 @@ p.para { margin: 8px 0; }
 
 
 <h2>Summary</h2>
-<p class="para">Wallet 0x15c3cdd668c6c8dc0d9f0e2b9dde14d9a1ecbc2b ranked #4 among top buyers this week, with $71.09 across 3497 transactions on stableenrich.dev. Activity spans base.</p>
+<p class="para">Wallet 0x15c3cdd668c6c8dc0d9f0e2b9dde14d9a1ecbc2b ranked #4 among top buyers this week, with $16.92 across 834 transactions on stableenrich.dev. Activity spans base.</p>
 
 
 <h2>Compliance analysis</h2>
 <p class="para"><strong>Overall Risk:</strong> <span class="tier-LOW">LOW–MEDIUM</span></p>
 
-<p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: funding came from 🤖 🏦 OKX: Hot Wallet, a KYC'd exchange — a verified identity exists behind this wallet; no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
+<p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
 
 
-<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; high transaction volume (3497 txs in 7 days) indicates pipeline-scale usage. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
+<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; high transaction volume (834 txs in 7 days) indicates pipeline-scale usage; no labeled funding source, which limits traceback without additional onchain work. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
 
-<p class="para"><strong>Investigation path:</strong> KYC trail is the direct follow-up. A subpoena or law-enforcement request to 🤖 🏦 OKX: Hot Wallet for the account holder behind deposit address 0x17fe91…645a would resolve attribution.</p>
+<p class="para"><strong>Investigation path:</strong> No labeled funding source identified in Nansen. Next step is deeper tx-graph analysis to reach a KYC'd counterparty before attribution is possible.</p>
 
 
 <h2>Funding & behavior</h2>
-<p class="para">Primary inbound funding: 🤖 🏦 OKX: Hot Wallet [0x17fe91] (KYC'd exchange) via 0x17fe9197970454875df742a74b74ed5f984b645a, $728.85. Current balance: $124.22.</p>
+<p class="para">No Nansen counterparty data returned. Current balance: $56.51.</p>
 
 <h2>What they're buying</h2>
 
@@ -72,10 +72,10 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0200</td>
-      <td>1346</td>
+      <td>374</td>
       <td>
         
-          <code>/api/apollo/people-search</code>
+          <code>/api/google-maps/nearby-search/partial</code>
         
       </td>
     </tr>
@@ -83,10 +83,10 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0400</td>
-      <td>432</td>
+      <td>92</td>
       <td>
         
-          <code>/api/serper/people-image-search</code>
+          <code>/api/serper/news</code>
         
       </td>
     </tr>
@@ -94,7 +94,7 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0300</td>
-      <td>429</td>
+      <td>92</td>
       <td>
         
           <code>/api/hunter/email-verifier</code>
@@ -105,7 +105,7 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0100</td>
-      <td>859</td>
+      <td>184</td>
       <td>
         
           <code>/api/exa/search</code>
@@ -116,7 +116,7 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0126</td>
-      <td>431</td>
+      <td>92</td>
       <td>
         
           <code>/api/firecrawl/scrape</code>
@@ -136,14 +136,18 @@ p.para { margin: 8px 0; }
 </table>
 <p><strong>Reasons:</strong></p>
 <ul>
-<li>No risk flags triggered</li>
+
 </ul>
+
+<p><strong>Flags:</strong>
+<span class="flag">funding_source_unknown</span>
+</p>
 
 
 <h2>Onchain activity (this week)</h2>
 <table>
-  <tr><th>Total spend (USD)</th><td>$71.09</td></tr>
-  <tr><th>Tx count</th><td>3497</td></tr>
+  <tr><th>Total spend (USD)</th><td>$16.92</td></tr>
+  <tr><th>Tx count</th><td>834</td></tr>
   <tr><th>Chains</th><td>base</td></tr>
   <tr><th>x402 origins</th><td>stableenrich.dev</td></tr>
   <tr><th>MPP servers</th><td>—</td></tr>
@@ -151,12 +155,12 @@ p.para { margin: 8px 0; }
 
 <h2>Nansen profile</h2>
 <table>
-  <tr><th>Current balance</th><td>$124.22</td></tr>
-  <tr><th>Funding source</th><td>🤖 🏦 OKX: Hot Wallet [0x17fe91]</td></tr>
-  <tr><th>Funding address</th><td class="addr">0x17fe9197970454875df742a74b74ed5f984b645a</td></tr>
-  <tr><th>Funding amount</th><td>$728.85</td></tr>
-  <tr><th>Counterparty count</th><td>10</td></tr>
-  <tr><th>Top counterparties</th><td>🤖 🏦 OKX: Hot Wallet [0x17fe91] · 🤖 SmartVault [0x325bdf] · [0x66d7c2] · [0x29322e] · [0x8c0512]</td></tr>
+  <tr><th>Current balance</th><td>$56.51</td></tr>
+  <tr><th>Funding source</th><td>—</td></tr>
+  <tr><th>Funding address</th><td class="addr">—</td></tr>
+  <tr><th>Funding amount</th><td>$0.00</td></tr>
+  <tr><th>Counterparty count</th><td>0</td></tr>
+  <tr><th>Top counterparties</th><td>—</td></tr>
   <tr><th>Labels</th><td>—</td></tr>
 </table>
 
