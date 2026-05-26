@@ -38,7 +38,7 @@ p.para { margin: 8px 0; }
 
 
 <h2>Summary</h2>
-<p class="para">Wallet 0xc2f0624879aa60feac38b9282d896c3652fa6cfc ranked #7 among top buyers this week, with $13.52 across 285 transactions on stableenrich.dev. Activity spans base.</p>
+<p class="para">Wallet 0xc2f0624879aa60feac38b9282d896c3652fa6cfc ranked #1 among top buyers this week, with $149.19 across 3014 transactions on stableenrich.dev. Activity spans base.</p>
 
 
 <h2>Compliance analysis</h2>
@@ -47,13 +47,13 @@ p.para { margin: 8px 0; }
 <p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
 
 
-<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; high transaction volume (285 txs in 7 days) indicates pipeline-scale usage. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
+<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: tight automated loop — 3014 transactions at a narrow set of uniform prices is consistent with scripted bulk data buying; single-origin activity — the wallet does effectively nothing except buy from this API; no labeled funding source, which limits traceback without additional onchain work. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
 
-<p class="para"><strong>Investigation path:</strong> Primary inbound funder is 🤖 SmartVault (0xb1360a…d98a). Tracing through that counterparty is the next step; no direct KYC handle without a centralized intermediary.</p>
+<p class="para"><strong>Investigation path:</strong> No labeled funding source identified in Nansen. Next step is deeper tx-graph analysis to reach a KYC'd counterparty before attribution is possible.</p>
 
 
 <h2>Funding & behavior</h2>
-<p class="para">Primary inbound funding: 🤖 SmartVault [0xb1360a] via 0xb1360a871f4b12d329d1386611f308b6351fd98a, $149.98. Current balance: $91.63.</p>
+<p class="para">No Nansen counterparty data returned.</p>
 
 <h2>What they're buying</h2>
 
@@ -72,65 +72,10 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0495</td>
-      <td>270</td>
+      <td>3014</td>
       <td>
         
           <code>/api/apollo/people-enrich</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0100</td>
-      <td>8</td>
-      <td>
-        
-          <code>/api/exa/search</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0126</td>
-      <td>2</td>
-      <td>
-        
-          <code>/api/firecrawl/scrape</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0252</td>
-      <td>1</td>
-      <td>
-        
-          <code>/api/firecrawl/search</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0200</td>
-      <td>1</td>
-      <td>
-        
-          <code>/api/apollo/people-search</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0020</td>
-      <td>3</td>
-      <td>
-        
-          <code>/api/exa/contents</code>
         
       </td>
     </tr>
@@ -147,14 +92,18 @@ p.para { margin: 8px 0; }
 </table>
 <p><strong>Reasons:</strong></p>
 <ul>
-<li>No risk flags triggered</li>
+
 </ul>
+
+<p><strong>Flags:</strong>
+<span class="flag">funding_source_unknown</span>
+</p>
 
 
 <h2>Onchain activity (this week)</h2>
 <table>
-  <tr><th>Total spend (USD)</th><td>$13.52</td></tr>
-  <tr><th>Tx count</th><td>285</td></tr>
+  <tr><th>Total spend (USD)</th><td>$149.19</td></tr>
+  <tr><th>Tx count</th><td>3014</td></tr>
   <tr><th>Chains</th><td>base</td></tr>
   <tr><th>x402 origins</th><td>stableenrich.dev</td></tr>
   <tr><th>MPP servers</th><td>—</td></tr>
@@ -162,12 +111,12 @@ p.para { margin: 8px 0; }
 
 <h2>Nansen profile</h2>
 <table>
-  <tr><th>Current balance</th><td>$91.63</td></tr>
-  <tr><th>Funding source</th><td>🤖 SmartVault [0xb1360a]</td></tr>
-  <tr><th>Funding address</th><td class="addr">0xb1360a871f4b12d329d1386611f308b6351fd98a</td></tr>
-  <tr><th>Funding amount</th><td>$149.98</td></tr>
-  <tr><th>Counterparty count</th><td>10</td></tr>
-  <tr><th>Top counterparties</th><td>🤖 SmartVault [0xb1360a] · 🤖 SmartVault [0x325bdf] · [0xd0244a] · [0x8f1b0d] · Relay Protocol: EOA Bridge [0xf70da9]</td></tr>
+  <tr><th>Current balance</th><td>$0.00</td></tr>
+  <tr><th>Funding source</th><td>—</td></tr>
+  <tr><th>Funding address</th><td class="addr">—</td></tr>
+  <tr><th>Funding amount</th><td>$0.00</td></tr>
+  <tr><th>Counterparty count</th><td>0</td></tr>
+  <tr><th>Top counterparties</th><td>—</td></tr>
   <tr><th>Labels</th><td>—</td></tr>
 </table>
 
