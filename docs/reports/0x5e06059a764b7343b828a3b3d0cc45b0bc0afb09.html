@@ -38,7 +38,7 @@ p.para { margin: 8px 0; }
 
 
 <h2>Summary</h2>
-<p class="para">Wallet 0x5e06059a764b7343b828a3b3d0cc45b0bc0afb09 ranked #9 among top buyers this week, with $17.05 across 620 transactions on stableenrich.dev. Activity spans base.</p>
+<p class="para">Wallet 0x5e06059a764b7343b828a3b3d0cc45b0bc0afb09 ranked #7 among top buyers this week, with $10.46 across 350 transactions on stableenrich.dev. Activity spans base.</p>
 
 
 <h2>Compliance analysis</h2>
@@ -47,13 +47,13 @@ p.para { margin: 8px 0; }
 <p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
 
 
-<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; high transaction volume (620 txs in 7 days) indicates pipeline-scale usage. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
+<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; high transaction volume (350 txs in 7 days) indicates pipeline-scale usage; no labeled funding source, which limits traceback without additional onchain work. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
 
-<p class="para"><strong>Investigation path:</strong> Primary inbound funder is High Activity (0x394311…d1bd). Tracing through that counterparty is the next step; no direct KYC handle without a centralized intermediary.</p>
+<p class="para"><strong>Investigation path:</strong> No labeled funding source identified in Nansen. Next step is deeper tx-graph analysis to reach a KYC'd counterparty before attribution is possible.</p>
 
 
 <h2>Funding & behavior</h2>
-<p class="para">Primary inbound funding: High Activity [0x394311] via 0x394311a6aaa0d8e3411d8b62de4578d41322d1bd, $49.83. Current balance: $40.10.</p>
+<p class="para">No Nansen counterparty data returned.</p>
 
 <h2>What they're buying</h2>
 
@@ -71,11 +71,22 @@ p.para { margin: 8px 0; }
     
     <tr>
       <td>stableenrich.dev</td>
-      <td>$0.2000</td>
-      <td>32</td>
+      <td>$0.0252</td>
+      <td>146</td>
       <td>
         
-          <code>/api/clado/contacts-enrich</code>
+          <code>/api/firecrawl/search</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.2800</td>
+      <td>9</td>
+      <td>
+        
+          <code>/api/pdl/people-enrich</code>
         
       </td>
     </tr>
@@ -83,7 +94,7 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0600</td>
-      <td>70</td>
+      <td>38</td>
       <td>
         
           <code>/api/companyenrich/org-enrich</code>
@@ -94,10 +105,32 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0100</td>
-      <td>350</td>
+      <td>142</td>
       <td>
         
-          <code>/api/exa/search</code>
+          <code>/api/google-maps/aerial-view/lookup-video</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.2000</td>
+      <td>2</td>
+      <td>
+        
+          <code>/api/clado/contacts-enrich</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.0200</td>
+      <td>6</td>
+      <td>
+        
+          <code>/api/google-maps/nearby-search/partial</code>
         
       </td>
     </tr>
@@ -105,7 +138,7 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0126</td>
-      <td>101</td>
+      <td>3</td>
       <td>
         
           <code>/api/firecrawl/scrape</code>
@@ -115,63 +148,8 @@ p.para { margin: 8px 0; }
     
     <tr>
       <td>stableenrich.dev</td>
-      <td>$0.0252</td>
-      <td>38</td>
-      <td>
-        
-          <code>/api/firecrawl/search</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0300</td>
-      <td>16</td>
-      <td>
-        
-          <code>/api/hunter/email-verifier</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0400</td>
-      <td>4</td>
-      <td>
-        
-          <code>/api/serper/news</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0500</td>
-      <td>1</td>
-      <td>
-        
-          <code>/api/minerva/enrich</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0200</td>
-      <td>1</td>
-      <td>
-        
-          <code>/api/google-maps/place-details/partial</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
       <td>$0.0020</td>
-      <td>7</td>
+      <td>4</td>
       <td>
         
           <code>/api/exa/contents</code>
@@ -191,14 +169,18 @@ p.para { margin: 8px 0; }
 </table>
 <p><strong>Reasons:</strong></p>
 <ul>
-<li>No risk flags triggered</li>
+
 </ul>
+
+<p><strong>Flags:</strong>
+<span class="flag">funding_source_unknown</span>
+</p>
 
 
 <h2>Onchain activity (this week)</h2>
 <table>
-  <tr><th>Total spend (USD)</th><td>$17.05</td></tr>
-  <tr><th>Tx count</th><td>620</td></tr>
+  <tr><th>Total spend (USD)</th><td>$10.46</td></tr>
+  <tr><th>Tx count</th><td>350</td></tr>
   <tr><th>Chains</th><td>base</td></tr>
   <tr><th>x402 origins</th><td>stableenrich.dev</td></tr>
   <tr><th>MPP servers</th><td>—</td></tr>
@@ -206,12 +188,12 @@ p.para { margin: 8px 0; }
 
 <h2>Nansen profile</h2>
 <table>
-  <tr><th>Current balance</th><td>$40.10</td></tr>
-  <tr><th>Funding source</th><td>High Activity [0x394311]</td></tr>
-  <tr><th>Funding address</th><td class="addr">0x394311a6aaa0d8e3411d8b62de4578d41322d1bd</td></tr>
-  <tr><th>Funding amount</th><td>$49.83</td></tr>
-  <tr><th>Counterparty count</th><td>10</td></tr>
-  <tr><th>Top counterparties</th><td>High Activity [0x394311] · [0x4aabe1] · ​​🤖 DEX Trading Bot [0x864599] · 🤖 SmartVault [0x325bdf] · [0xcfa26f]</td></tr>
+  <tr><th>Current balance</th><td>$0.00</td></tr>
+  <tr><th>Funding source</th><td>—</td></tr>
+  <tr><th>Funding address</th><td class="addr">—</td></tr>
+  <tr><th>Funding amount</th><td>$0.00</td></tr>
+  <tr><th>Counterparty count</th><td>0</td></tr>
+  <tr><th>Top counterparties</th><td>—</td></tr>
   <tr><th>Labels</th><td>—</td></tr>
 </table>
 

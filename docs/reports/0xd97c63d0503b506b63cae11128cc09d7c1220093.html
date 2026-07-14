@@ -38,7 +38,7 @@ p.para { margin: 8px 0; }
 
 
 <h2>Summary</h2>
-<p class="para">Wallet 0xd97c63d0503b506b63cae11128cc09d7c1220093 ranked #3 among top buyers this week, with $14.74 across 382 transactions on stableenrich.dev. Activity spans base.</p>
+<p class="para">Wallet 0xd97c63d0503b506b63cae11128cc09d7c1220093 ranked #9 among top buyers this week, with $9.10 across 280 transactions on stableenrich.dev. Activity spans base.</p>
 
 
 <h2>Compliance analysis</h2>
@@ -47,13 +47,13 @@ p.para { margin: 8px 0; }
 <p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
 
 
-<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; high transaction volume (382 txs in 7 days) indicates pipeline-scale usage; no labeled funding source, which limits traceback without additional onchain work. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
+<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; high transaction volume (280 txs in 7 days) indicates pipeline-scale usage; no labeled funding source, which limits traceback without additional onchain work. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
 
 <p class="para"><strong>Investigation path:</strong> No labeled funding source identified in Nansen. Next step is deeper tx-graph analysis to reach a KYC'd counterparty before attribution is possible.</p>
 
 
 <h2>Funding & behavior</h2>
-<p class="para">No Nansen counterparty data returned. Current balance: $0.00.</p>
+<p class="para">No Nansen counterparty data returned.</p>
 
 <h2>What they're buying</h2>
 
@@ -71,33 +71,22 @@ p.para { margin: 8px 0; }
     
     <tr>
       <td>stableenrich.dev</td>
-      <td>$0.0800</td>
-      <td>57</td>
+      <td>$0.0500</td>
+      <td>39</td>
       <td>
         
-          <code>/api/google-maps/text-search/full</code>
+          <code>/api/google-maps/place-details/full</code>
         
       </td>
     </tr>
     
     <tr>
       <td>stableenrich.dev</td>
-      <td>$0.2000</td>
+      <td>$0.0800</td>
       <td>21</td>
       <td>
         
-          <code>/api/pdl/people-enrich</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0600</td>
-      <td>28</td>
-      <td>
-        
-          <code>/api/companyenrich/properties-enrich</code>
+          <code>/api/google-maps/solar/data-layers</code>
         
       </td>
     </tr>
@@ -115,11 +104,22 @@ p.para { margin: 8px 0; }
     
     <tr>
       <td>stableenrich.dev</td>
-      <td>$0.0200</td>
-      <td>59</td>
+      <td>$0.2000</td>
+      <td>8</td>
       <td>
         
-          <code>/api/google-maps/solar/building-insights</code>
+          <code>/api/clado/contacts-enrich</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.2800</td>
+      <td>3</td>
+      <td>
+        
+          <code>/api/pdl/people-enrich</code>
         
       </td>
     </tr>
@@ -127,43 +127,32 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0100</td>
-      <td>64</td>
+      <td>59</td>
       <td>
         
-          <code>/api/exa/answer</code>
+          <code>/api/google-maps/aerial-view/lookup-video</code>
         
       </td>
     </tr>
     
     <tr>
       <td>stableenrich.dev</td>
-      <td>$0.0500</td>
-      <td>9</td>
+      <td>$0.1400</td>
+      <td>2</td>
       <td>
         
-          <code>/api/google-maps/place-details/full</code>
+          <code>/api/fullenrich/people-search</code>
         
       </td>
     </tr>
     
     <tr>
       <td>stableenrich.dev</td>
-      <td>$0.0300</td>
-      <td>6</td>
+      <td>$0.0600</td>
+      <td>4</td>
       <td>
         
-          <code>/api/hunter/email-verifier</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0400</td>
-      <td>3</td>
-      <td>
-        
-          <code>/api/serper/news</code>
+          <code>/api/companyenrich/org-enrich</code>
         
       </td>
     </tr>
@@ -171,10 +160,21 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0252</td>
-      <td>3</td>
+      <td>6</td>
       <td>
         
           <code>/api/firecrawl/search</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.0200</td>
+      <td>6</td>
+      <td>
+        
+          <code>/api/google-maps/nearby-search/partial</code>
         
       </td>
     </tr>
@@ -212,8 +212,8 @@ p.para { margin: 8px 0; }
 
 <h2>Onchain activity (this week)</h2>
 <table>
-  <tr><th>Total spend (USD)</th><td>$14.74</td></tr>
-  <tr><th>Tx count</th><td>382</td></tr>
+  <tr><th>Total spend (USD)</th><td>$9.10</td></tr>
+  <tr><th>Tx count</th><td>280</td></tr>
   <tr><th>Chains</th><td>base</td></tr>
   <tr><th>x402 origins</th><td>stableenrich.dev</td></tr>
   <tr><th>MPP servers</th><td>—</td></tr>
