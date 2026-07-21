@@ -38,7 +38,7 @@ p.para { margin: 8px 0; }
 
 
 <h2>Summary</h2>
-<p class="para">Wallet 0x1cb8d1456efc633da6eeaa038033edcbcdc0bdff ranked #3 among top buyers this week, with $19.74 across 1974 transactions on stableenrich.dev. Activity spans base.</p>
+<p class="para">Wallet 0x1cb8d1456efc633da6eeaa038033edcbcdc0bdff ranked #1 among top buyers this week, with $56.79 across 5679 transactions on stableenrich.dev. Activity spans base.</p>
 
 
 <h2>Compliance analysis</h2>
@@ -47,13 +47,13 @@ p.para { margin: 8px 0; }
 <p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
 
 
-<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: tight automated loop — 1974 transactions at a narrow set of uniform prices is consistent with scripted bulk data buying; single-origin activity — the wallet does effectively nothing except buy from this API; no labeled funding source, which limits traceback without additional onchain work. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
+<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: tight automated loop — 5679 transactions at a narrow set of uniform prices is consistent with scripted bulk data buying; single-origin activity — the wallet does effectively nothing except buy from this API. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
 
-<p class="para"><strong>Investigation path:</strong> No labeled funding source identified in Nansen. Next step is deeper tx-graph analysis to reach a KYC'd counterparty before attribution is possible.</p>
+<p class="para"><strong>Investigation path:</strong> Primary inbound funder is  (0xd7282f…5327). Tracing through that counterparty is the next step; no direct KYC handle without a centralized intermediary.</p>
 
 
 <h2>Funding & behavior</h2>
-<p class="para">No Nansen counterparty data returned.</p>
+<p class="para">Primary inbound funding: [0xd7282f] via 0xd7282f62fb0d041812bf02d3b0ab272759ff5327, $413.51. Current balance: $353.35.</p>
 
 <h2>What they're buying</h2>
 
@@ -72,10 +72,10 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0100</td>
-      <td>1974</td>
+      <td>5679</td>
       <td>
         
-          <code>/api/google-maps/aerial-view/lookup-video</code>
+          <code>/api/exa/search</code>
         
       </td>
     </tr>
@@ -92,18 +92,14 @@ p.para { margin: 8px 0; }
 </table>
 <p><strong>Reasons:</strong></p>
 <ul>
-
+<li>No risk flags triggered</li>
 </ul>
-
-<p><strong>Flags:</strong>
-<span class="flag">funding_source_unknown</span>
-</p>
 
 
 <h2>Onchain activity (this week)</h2>
 <table>
-  <tr><th>Total spend (USD)</th><td>$19.74</td></tr>
-  <tr><th>Tx count</th><td>1974</td></tr>
+  <tr><th>Total spend (USD)</th><td>$56.79</td></tr>
+  <tr><th>Tx count</th><td>5679</td></tr>
   <tr><th>Chains</th><td>base</td></tr>
   <tr><th>x402 origins</th><td>stableenrich.dev</td></tr>
   <tr><th>MPP servers</th><td>—</td></tr>
@@ -111,12 +107,12 @@ p.para { margin: 8px 0; }
 
 <h2>Nansen profile</h2>
 <table>
-  <tr><th>Current balance</th><td>$0.00</td></tr>
-  <tr><th>Funding source</th><td>—</td></tr>
-  <tr><th>Funding address</th><td class="addr">—</td></tr>
-  <tr><th>Funding amount</th><td>$0.00</td></tr>
-  <tr><th>Counterparty count</th><td>0</td></tr>
-  <tr><th>Top counterparties</th><td>—</td></tr>
+  <tr><th>Current balance</th><td>$353.35</td></tr>
+  <tr><th>Funding source</th><td>[0xd7282f]</td></tr>
+  <tr><th>Funding address</th><td class="addr">0xd7282f62fb0d041812bf02d3b0ab272759ff5327</td></tr>
+  <tr><th>Funding amount</th><td>$413.51</td></tr>
+  <tr><th>Counterparty count</th><td>10</td></tr>
+  <tr><th>Top counterparties</th><td>​​🤖 🏦 0x: DEX Aggregator [0x7747f8] · [0xd7282f] · High Activity [0xe75768] · 0xjustice.eth [0x536299] · fedvan.eth [0x3838ca]</td></tr>
   <tr><th>Labels</th><td>—</td></tr>
 </table>
 
