@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>0x1cb8d1456efc633da6eeaa038033edcbcdc0bdff — Compliance Report</title>
+<title>0xe6c57e7771c041b9ad9ef17b4ddf3611e1d7d0ac — Compliance Report</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 :root { color-scheme: light; }
@@ -34,11 +34,11 @@ p.para { margin: 8px 0; }
 </nav>
 
 <h1>Compliance report</h1>
-<div class="sub addr">0x1cb8d1456efc633da6eeaa038033edcbcdc0bdff</div>
+<div class="sub addr">0xe6c57e7771c041b9ad9ef17b4ddf3611e1d7d0ac</div>
 
 
 <h2>Summary</h2>
-<p class="para">Wallet 0x1cb8d1456efc633da6eeaa038033edcbcdc0bdff ranked #9 among top buyers this week, with $11.14 across 1114 transactions on stableenrich.dev. Activity spans base.</p>
+<p class="para">Wallet 0xe6c57e7771c041b9ad9ef17b4ddf3611e1d7d0ac ranked #7 among top buyers this week, with $12.83 across 162 transactions on stableenrich.dev. Activity spans base.</p>
 
 
 <h2>Compliance analysis</h2>
@@ -47,7 +47,7 @@ p.para { margin: 8px 0; }
 <p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
 
 
-<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: tight automated loop — 1114 transactions at a narrow set of uniform prices is consistent with scripted bulk data buying; single-origin activity — the wallet does effectively nothing except buy from this API; no labeled funding source, which limits traceback without additional onchain work. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
+<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; no labeled funding source, which limits traceback without additional onchain work. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
 
 <p class="para"><strong>Investigation path:</strong> No labeled funding source identified in Nansen. Next step is deeper tx-graph analysis to reach a KYC'd counterparty before attribution is possible.</p>
 
@@ -71,11 +71,77 @@ p.para { margin: 8px 0; }
     
     <tr>
       <td>stableenrich.dev</td>
+      <td>$0.2000</td>
+      <td>47</td>
+      <td>
+        
+          <code>/api/clado/contacts-enrich</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.0300</td>
+      <td>51</td>
+      <td>
+        
+          <code>/api/hunter/email-verifier</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.2200</td>
+      <td>6</td>
+      <td>
+        
+          <code>/api/whitepages/person-search</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
       <td>$0.0100</td>
-      <td>1114</td>
+      <td>28</td>
       <td>
         
           <code>/api/exa/search</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.0200</td>
+      <td>12</td>
+      <td>
+        
+          <code>/api/reddit/post-comments</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.0020</td>
+      <td>16</td>
+      <td>
+        
+          <code>/api/exa/contents</code>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td>stableenrich.dev</td>
+      <td>$0.0126</td>
+      <td>2</td>
+      <td>
+        
+          <code>/api/firecrawl/scrape</code>
         
       </td>
     </tr>
@@ -102,8 +168,8 @@ p.para { margin: 8px 0; }
 
 <h2>Onchain activity (this week)</h2>
 <table>
-  <tr><th>Total spend (USD)</th><td>$11.14</td></tr>
-  <tr><th>Tx count</th><td>1114</td></tr>
+  <tr><th>Total spend (USD)</th><td>$12.83</td></tr>
+  <tr><th>Tx count</th><td>162</td></tr>
   <tr><th>Chains</th><td>base</td></tr>
   <tr><th>x402 origins</th><td>stableenrich.dev</td></tr>
   <tr><th>MPP servers</th><td>—</td></tr>
