@@ -38,22 +38,22 @@ p.para { margin: 8px 0; }
 
 
 <h2>Summary</h2>
-<p class="para">Wallet 0x7b7c6b453f29747022fd3326fd545b3cf165ef7d ranked #8 among top buyers this week, with $12.07 across 417 transactions on stableenrich.dev. Activity spans base.</p>
+<p class="para">Wallet 0x7b7c6b453f29747022fd3326fd545b3cf165ef7d ranked #10 among top buyers this week, with $10.60 across 88 transactions on stableenrich.dev. Activity spans base.</p>
 
 
 <h2>Compliance analysis</h2>
 <p class="para"><strong>Overall Risk:</strong> <span class="tier-LOW">LOW–MEDIUM</span></p>
 
-<p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: funding came from 🏦 Coinbase: Main Wallet, a KYC'd exchange — a verified identity exists behind this wallet; no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
+<p class="para"><strong>Why not HIGH:</strong> Fully transparent and traceable: no mixer or privacy-tool interaction detected; no contact with sanctioned addresses.</p>
 
 
-<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; high transaction volume (417 txs in 7 days) indicates pipeline-scale usage. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
+<p class="para"><strong>Why not LOW:</strong> Behavioral pattern is the concern: single-origin activity — the wallet does effectively nothing except buy from this API; no labeled funding source, which limits traceback without additional onchain work. This pattern fits both legitimate sales prospecting / lead generation and adversarial target-list building — onchain data alone cannot distinguish intent.</p>
 
-<p class="para"><strong>Investigation path:</strong> KYC trail is the direct follow-up. A subpoena or law-enforcement request to 🏦 Coinbase: Main Wallet for the account holder behind deposit address 0x6dcbce…4467 would resolve attribution.</p>
+<p class="para"><strong>Investigation path:</strong> No labeled funding source identified in Nansen. Next step is deeper tx-graph analysis to reach a KYC'd counterparty before attribution is possible.</p>
 
 
 <h2>Funding & behavior</h2>
-<p class="para">Primary inbound funding: 🏦 Coinbase: Main Wallet [0x6dcbce] (KYC'd exchange) via 0x6dcbce46a8b494c885d0e7b6817d2b519df64467, $15.00. Current balance: $2.93.</p>
+<p class="para">No Nansen counterparty data returned.</p>
 
 <h2>What they're buying</h2>
 
@@ -71,44 +71,11 @@ p.para { margin: 8px 0; }
     
     <tr>
       <td>stableenrich.dev</td>
-      <td>$0.0495</td>
-      <td>190</td>
-      <td>
-        
-          <code>/api/apollo/people-enrich</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0100</td>
-      <td>152</td>
-      <td>
-        
-          <code>/api/exa/search</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0200</td>
+      <td>$0.2800</td>
       <td>34</td>
       <td>
         
-          <code>/api/apollo/people-search</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0126</td>
-      <td>22</td>
-      <td>
-        
-          <code>/api/firecrawl/scrape</code>
+          <code>/api/pdl/people-enrich</code>
         
       </td>
     </tr>
@@ -116,7 +83,7 @@ p.para { margin: 8px 0; }
     <tr>
       <td>stableenrich.dev</td>
       <td>$0.0300</td>
-      <td>3</td>
+      <td>23</td>
       <td>
         
           <code>/api/hunter/email-verifier</code>
@@ -126,22 +93,11 @@ p.para { margin: 8px 0; }
     
     <tr>
       <td>stableenrich.dev</td>
-      <td>$0.0252</td>
-      <td>3</td>
+      <td>$0.0126</td>
+      <td>31</td>
       <td>
         
-          <code>/api/firecrawl/search</code>
-        
-      </td>
-    </tr>
-    
-    <tr>
-      <td>stableenrich.dev</td>
-      <td>$0.0020</td>
-      <td>13</td>
-      <td>
-        
-          <code>/api/exa/contents</code>
+          <code>/api/firecrawl/scrape</code>
         
       </td>
     </tr>
@@ -158,14 +114,18 @@ p.para { margin: 8px 0; }
 </table>
 <p><strong>Reasons:</strong></p>
 <ul>
-<li>No risk flags triggered</li>
+
 </ul>
+
+<p><strong>Flags:</strong>
+<span class="flag">funding_source_unknown</span>
+</p>
 
 
 <h2>Onchain activity (this week)</h2>
 <table>
-  <tr><th>Total spend (USD)</th><td>$12.07</td></tr>
-  <tr><th>Tx count</th><td>417</td></tr>
+  <tr><th>Total spend (USD)</th><td>$10.60</td></tr>
+  <tr><th>Tx count</th><td>88</td></tr>
   <tr><th>Chains</th><td>base</td></tr>
   <tr><th>x402 origins</th><td>stableenrich.dev</td></tr>
   <tr><th>MPP servers</th><td>—</td></tr>
@@ -173,12 +133,12 @@ p.para { margin: 8px 0; }
 
 <h2>Nansen profile</h2>
 <table>
-  <tr><th>Current balance</th><td>$2.93</td></tr>
-  <tr><th>Funding source</th><td>🏦 Coinbase: Main Wallet [0x6dcbce]</td></tr>
-  <tr><th>Funding address</th><td class="addr">0x6dcbce46a8b494c885d0e7b6817d2b519df64467</td></tr>
-  <tr><th>Funding amount</th><td>$15.00</td></tr>
-  <tr><th>Counterparty count</th><td>4</td></tr>
-  <tr><th>Top counterparties</th><td>🤖 SmartVault [0x325bdf] · 🏦 Coinbase: Main Wallet [0x6dcbce] · 🏦 Coinbase: Main Wallet [0xd34ea7] · 🏦 Coinbase: Main Wallet [0x40ebc1]</td></tr>
+  <tr><th>Current balance</th><td>$0.00</td></tr>
+  <tr><th>Funding source</th><td>—</td></tr>
+  <tr><th>Funding address</th><td class="addr">—</td></tr>
+  <tr><th>Funding amount</th><td>$0.00</td></tr>
+  <tr><th>Counterparty count</th><td>0</td></tr>
+  <tr><th>Top counterparties</th><td>—</td></tr>
   <tr><th>Labels</th><td>—</td></tr>
 </table>
 
